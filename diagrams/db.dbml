@@ -2,7 +2,7 @@
 
 Table Users {
   UserId INT [PK, INCREMENT]
-  DisplayName NVARCHAR[128]
+  DisplayName NVARCHAR[256]
   DeletedAt DATETIME [NULL]
   DeletedBy INT [ref: > Users.UserId, NULL]
 }
