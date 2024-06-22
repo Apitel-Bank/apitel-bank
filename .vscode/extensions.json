@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "nicolas-liger.dbml-viewer"
+    "nicolas-liger.dbml-viewer",
+    "systemticks.c4-dsl-extension"
   ]
 }
