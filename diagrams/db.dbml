@@ -1,0 +1,13 @@
+// Assume all columns are NON NULLABLE unless explicitly specified otherwise.
+
+Table Users {
+  UserId INT [PK, INCREMENT]
+  DisplayName NVARCHAR[128]
+  DeletedAt DATETIME [NULL]
+  DeletedBy INT [ref: > Users.UserId, NULL]
+}
+
+Table Customers {
+  UserId INT [ref: > Users.UserId]
+  IdNumber INT
+}
