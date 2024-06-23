@@ -28,7 +28,7 @@ workspace {
         businesses -> this "Perform debit order services with" "HTTP/TCP"
       }
 
-      apitelMessagingService = container "Apitel Messaging Service" "Apache Kafka" {
+      apitelMessagingService = container "Apitel Messaging Service" "AWS SQS" {
         mainBankingService -> this "Gets and writes messages from/to" "Camel/TCP"
         reportingService -> this "Gets and writes messages from/to" "Camel/TCP"
         apitelBankPartnerService -> this "Gets and writes messages from/to" "Camel/TCP"
