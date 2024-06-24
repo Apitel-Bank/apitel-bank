@@ -14,12 +14,11 @@ Be sure to be in wsl or in a linux host then run `docker compose up` from the ro
 When trying to connect to a service from another service, use the container name as the host name. Both the container name and ports can be found in the `compose.yml` file. When trying to connect from the host machine (localhost) to the running service, use localhost as the host name and the port found in `compose.yml` for that service. These are the localhost urls for the different services:
 
 1. SQL Database -> localhost:1433
-2. Kafka UI -> http://localhost:8080
-3. Localstack Gateway -> localhost:4566
-4. Main Banking Service -> localhost:3001
-5. Reporting Service -> localhost:3002
-6. Bank Partner Service -> localhost:3003
-7. Bank Manager Portal -> http://localhost:3000
+2. Localstack Gateway -> localhost:4566
+3. Main Banking Service -> localhost:3001
+4. Reporting Service -> localhost:3002
+5. Bank Partner Service -> localhost:3003
+6. Bank Manager Portal -> http://localhost:3000
 
 ## Adding SQS queues locally
 
