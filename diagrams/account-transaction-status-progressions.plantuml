@@ -1,0 +1,26 @@
+' These are the statuses a transaction will through once it has been received by the main banking service
+' Deposit = Another bank is sending money to us
+' Payment = we have to send money to another bank
+@startuml
+' A transaction will be queued, once popped from the queue for processing it
+' is added to db (for auditing purposes) and is marked as new.
+[*] --> New
+
+' Next step is to verify that the source and target accounts exists, if payment, and that
+' the customer has enough funds for the transaction. For Deposits we verify that the target
+' account exists.
+' In Accepted state, PAYMENT transactions count towards the user's balance (i.e reflect)
+New --> Accepted : Funds available [If payment]. Deposits automatically go to Accepted.
+
+' Transaction declined, a rejection reason is communicated back to initiator.
+New --> Rejected : Acceptance conditions not met
+
+' If DEPOSIT, the deposited amount will count towards user's balance.
+Accepted --> Verified : The other bank has confirmed successful capture of the transaction
+
+' The other bank failed to verify successful capture of the transaction.
+' If PAYMENT the user's funds are reversed.
+Accepted --> Reversed : Verification failed. Reverse Payments.
+Reversed --> [*]
+Rejected --> [*]
+@enduml

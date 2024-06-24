@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "nicolas-liger.dbml-viewer",
-    "systemticks.c4-dsl-extension"
+    "systemticks.c4-dsl-extension",
+    "jebbs.plantuml"
   ]
 }

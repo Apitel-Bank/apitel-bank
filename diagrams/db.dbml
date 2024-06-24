@@ -8,6 +8,62 @@ Table Users {
 }
 
 Table Customers {
+  CustomerId INT [PK, INCREMENT]
   UserId INT [ref: > Users.UserId]
-  IdNumber INT
+  BBDoughId INT
+  DeletedAt DATETIME [NULL]
+  DeletedBy INT [ref: > Users.UserId, NULL]  
+}
+
+Table Accounts {
+  AccountId INT [PK, INCREMENT]
+  CustomerId INT [ref: > Customers.CustomerId]
+  Name NVARCHAR[256]
+}
+
+// Treat it as a Liability account from the bank's perspective. That means:\
+// Deposits increase the Credit side (The bank owes more to the Customer)
+// and Payments increase the Debit side (The bank owes less to the Customer)
+Table AccountTransactions {
+  AccountTransactionId INT [PK, INCREMENT]
+  AccountId INT [ref: > Accounts.AccountId]
+  DebitInMibiBBDough INT
+  CreditInMibiBBDough INT
+  Reference NVARCHAR[512]
+  OtherPartyId INT [ref: > ExternalAccounts.ExternalAccountId]
+}
+
+Table ExternalAccounts {
+  ExternalAccountId INT [PK, INCREMENT]
+  BankId INT
+  ExternalCustomerAccountId NVARCHAR[512]
+}
+
+Table AccountTransactionStatusProgressions {
+  AccountTransactionStatusProgressionId INT [PK, INCREMENT]
+  AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
+  AccountTransactionStatusId INT
+}
+
+Table AccountTransactionRejectionReasons {
+  AccountTransactionRejectionReasonId INT [PK, INCREMENT]
+  AccountTransactionStatusProgressionId INT [ref: > AccountTransactionStatusProgressions.AccountTransactionStatusProgressionId]
+  TransactionErrorCode INT
+}
+
+Table DebitOrders {
+  DebitOrderId INT [PK, INCREMENT]
+  AmountInMibiBBDough INT
+  AccountId INT [ref: > Accounts.AccountId]
+
+  // [1, 30]
+  DayInTheMonth INT
+  EndsAt DATETIME [NULL]
+
+  DebitOrderRecepientId INT [ref: > DebitOrderRecepients.DebitOrderRecepientId]
+}
+
+Table DebitOrderRecepients {
+  DebitOrderRecepientId INT [PK, INCREMENT]
+  ExternalAccountId INT [ref: > ExternalAccounts.ExternalAccountId]
 }
