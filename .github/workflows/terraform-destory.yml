@@ -1,0 +1,43 @@
+name: "Destroy Terraform"
+
+on: [workflow_dispatch]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  destroy-infrastructure:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      TF_VAR_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: database/infrastructure
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GITHUB_ACTION_RDS
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Validate Identity with AWS
+        run: aws sts get-caller-identity
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialize Terraform
+        id: init
+        run: terraform init
+
+      - name: Delete infrastructure
+        id: destroy
+        run: terraform destroy -auto-approve
