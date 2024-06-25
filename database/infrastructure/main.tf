@@ -123,24 +123,21 @@ resource "aws_security_group" "apitel_security_group" {
 }
 
 resource "aws_db_instance" "apitel_sqlserver_rds" {
-  allocated_storage      = 20 
-  instance_class         = "db.t3.micro"
-
-  publicly_accessible    = true
-  skip_final_snapshot    = true
-  multi_az               = false
-
-  engine                    = "sqlserver-ex"
-  engine_version            = "15.00.4365.2.v1"
-
-  identifier             = "apitel-db-sqlserver"
-
-  username               = var.DB_USERNAME
-  password               = var.DB_PASSWORD
-
-  vpc_security_group_ids = [aws_security_group.apitel_security_group.id]
-  db_subnet_group_name   = aws_db_subnet_group.apitel_subnet_group.name
-
+  identifier                  = "apitel-db-sqlserver"
+  allocated_storage           = 20
+  engine                      = "sqlserver-ex"
+  engine_version              = "16.00.4095.4.v1"
+  instance_class              = "db.t3.micro"
+  publicly_accessible         = true
+  username                    = var.DB_USERNAME
+  password                    = var.DB_PASSWORD
+  multi_az                    = false
+  apply_immediately           = true
+  copy_tags_to_snapshot       = true
+  db_subnet_group_name        = aws_db_subnet_group.apitel_subnet_group.name
+  skip_final_snapshot         = true
+  vpc_security_group_ids      = [aws_security_group.apitel_security_group.id]
+  
   tags = {
     owner = "liam.talberg@bbd.co.za"
   }
