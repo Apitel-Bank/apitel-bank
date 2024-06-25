@@ -1,6 +1,6 @@
 CREATE TABLE [Users] (
   [UserId] INT PRIMARY KEY IDENTITY(1, 1),
-  [DisplayName] NVARCHAR[256],
+  [DisplayName] NVARCHAR(256),
   [DeletedAt] DATETIME,
   [DeletedBy] INT
 )
@@ -18,7 +18,7 @@ GO
 CREATE TABLE [Accounts] (
   [AccountId] INT PRIMARY KEY IDENTITY(1, 1),
   [CustomerId] INT,
-  [Name] NVARCHAR[256]
+  [Name] NVARCHAR(256)
 )
 GO
 
@@ -27,7 +27,7 @@ CREATE TABLE [AccountTransactions] (
   [AccountId] INT,
   [DebitInMibiBBDough] INT,
   [CreditInMibiBBDough] INT,
-  [Reference] NVARCHAR[512],
+  [Reference] NVARCHAR(512),
   [OtherPartyId] INT
 )
 GO
@@ -35,7 +35,7 @@ GO
 CREATE TABLE [ExternalAccounts] (
   [ExternalAccountId] INT PRIMARY KEY IDENTITY(1, 1),
   [BankId] INT,
-  [ExternalCustomerAccountId] NVARCHAR[512]
+  [ExternalCustomerAccountId] NVARCHAR(512),
 )
 GO
 
