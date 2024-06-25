@@ -130,8 +130,8 @@ resource "aws_db_instance" "apitel_sqlserver_rds" {
   skip_final_snapshot    = true
   multi_az               = false
 
-  engine                    = "sqlserver-se"
-  engine_version            = "12.00.4422.0.v1"
+  engine                    = "sqlserver-ex"
+  engine_version            = "15.00.4365.2.v1"
 
   identifier             = "apitel-db-sqlserver"
 
