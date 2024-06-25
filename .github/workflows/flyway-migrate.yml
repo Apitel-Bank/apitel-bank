@@ -16,7 +16,7 @@ jobs:
       FLYWAY_URL: jdbc:sqlserver://${{secrets.AWS_RDS_ENDPOINT}}:1433;authentication=sqlPassword;databaseName=ApitelDB
       FLYWAY_USER: ${{ secrets.DB_USERNAME }}
       FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      FLYWAY_LOCATION: filesystem:database/flyway/migrations/sql
+      FLYWAY_LOCATION: filesystem:database/flyway
     defaults:
       run:
         shell: bash
