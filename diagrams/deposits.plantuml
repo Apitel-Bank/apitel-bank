@@ -1,0 +1,23 @@
+' Deposit = Another bank is sending money to us
+' Payment = we have to send money to another bank
+' Here we assume Comercial Bank is making the deposit to Retail Bank. But it works
+' the same when Retail Bank is making the payment.
+
+@startuml
+' Add transaction to queue for processing whenever receiving bank is ready. Shoot and forget.
+' Can maybe add a timer to ensure the receiving bank responds in a reasonable time.
+' For example, Retail bank will cancel all payments it makes to other banks if those banks do
+' not call into its webhook to confirm acceptance of the payment.
+ComercialBank -> RetailBank : POST /deposits {personaId, reference, sourceAccountId, amountInMibiBBDough}
+ComercialBank <-- RetailBank : 202 Accepted
+
+' Retail bank will save the transaction, do any other processing it needs
+' and send communication back to the commercial bank so it can also finalise things on its side.
+' If retail bank rejects the transaction, the webhook action will be 'depositRejected'
+ComercialBank <- RetailBank : POST /webhook {action=depositAccepted, reference}
+ComercialBank --> RetailBank : 201 Created
+
+' Once comercial bank confirms it has finalised things on its side, the Saga ends.
+' If the comercial bank returns an error, the retail bank will reverse the Saga on its side.
+
+@enduml
