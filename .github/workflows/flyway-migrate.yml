@@ -13,7 +13,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     env:
-      FLYWAY_URL: jdbc:sqlserver://${{secrets.AWS_RDS_ENDPOINT}}:1433;authentication=sqlPassword;databaseName=ApitelDB
+      FLYWAY_URL: jdbc:sqlserver:// ${{ secrets.AWS_RDS_ENDPOINT }}:1433;databaseName=ApitelDB
       FLYWAY_USER: ${{ secrets.DB_USERNAME }}
       FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
       FLYWAY_LOCATION: filesystem:migrations/sql
