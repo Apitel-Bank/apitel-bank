@@ -135,7 +135,6 @@ resource "aws_db_instance" "apitel_sqlserver_rds" {
 
   identifier             = "apitel-db-sqlserver"
 
-  db_name                = "apitelDB"
   username               = var.DB_USERNAME
   password               = var.DB_PASSWORD
 
