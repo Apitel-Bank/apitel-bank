@@ -1,0 +1,50 @@
+name: Deploy Partner Service to AWS Elastic Beanstalk Environment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "bank-partner-service/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bank-partner-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "8.0"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release
+
+      - name: Publish the project
+        run: dotnet publish --configuration Release --output ./build
+
+      - name: Zip the build
+        run: |
+          cd build
+          zip -r ../build.zip .
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          application_name: apitel-partner-service
+          environment_name: Apitel-partner-service-env
+          version_label: "app-${{ github.sha }}"
+          region: eu-west-1
+          deployment_package: build.zip
