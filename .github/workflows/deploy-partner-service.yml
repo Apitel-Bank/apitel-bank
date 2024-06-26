@@ -47,4 +47,4 @@ jobs:
           environment_name: Apitel-partner-service-env
           version_label: "app-${{ github.sha }}"
           region: eu-west-1
-          deployment_package: build.zip
+          deployment_package: ../build.zip
