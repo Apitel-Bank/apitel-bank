@@ -23,5 +23,12 @@
 hs_err_pid*
 replay_pid*
 
-dbdata
-localstack
+# Visual Studio and VS Code directories
+.vs/
+.vscode/
+bin/
+obj/
+
+# Local directories
+dbdata/
+localstack/
