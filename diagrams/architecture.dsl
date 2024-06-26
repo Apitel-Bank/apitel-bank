@@ -12,8 +12,7 @@ workspace {
         bankManager -> this "Views reports with" "Web Browser"
       }
 
-      mainBankingService = container "Main Banking Service" "Apache Camel, Spring and Java" "JVM" {
-        this -> personaService "Verifies customer identity with" "HTTP/TCP"
+      debitOrderProcessingService = container "Debit Order Processing Service" "Apache Camel, Spring and Java" "JVM" {
       }
 
       reportingService = container "Reporting Service" "Apache Camel, Spring and Java" "JVM" {
@@ -29,13 +28,12 @@ workspace {
       }
 
       apitelMessagingService = container "Apitel Messaging Service" "AWS SQS" {
-        mainBankingService -> this "Gets and writes messages from/to" "Camel/TCP"
-        reportingService -> this "Gets and writes messages from/to" "Camel/TCP"
-        apitelBankPartnerService -> this "Gets and writes messages from/to" "Camel/TCP"
+        debitOrderProcessingService -> this "Writes debit order payment instructions to" "Camel/TCP"
+        apitelBankPartnerService -> this "Gets payment instructions from" "Camel/TCP"
       }
 
       database = container "Database" "MS-SQL" {
-        mainBankingService -> this "Persists data with" "T-SQL/TCP"
+        debitOrderProcessingService -> this "Gets debit orders from" "T-SQL/TCP"
         reportingService -> this "Reads raw data from" "T-SQL/TCP"
         apitelBankPartnerService -> this "Gets/Writes authoriation levels from/to" "T-SQL/TCP"
       }
