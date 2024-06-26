@@ -1,17 +1,18 @@
 CREATE TABLE [Users] (
   [UserId] INT PRIMARY KEY IDENTITY(1, 1),
   [DisplayName] NVARCHAR(256),
-  [DeletedAt] DATETIME,
-  [DeletedBy] INT
+  [DeletedAt] DATETIME NULL,
+  [DeletedBy] INT NULL
 )
 GO
+
 
 CREATE TABLE [Customers] (
   [CustomerId] INT PRIMARY KEY IDENTITY(1, 1),
   [UserId] INT,
   [BBDoughId] INT,
-  [DeletedAt] DATETIME,
-  [DeletedBy] INT
+  [DeletedAt] DATETIME NULL,
+  [DeletedBy] INT NULL
 )
 GO
 
@@ -58,7 +59,8 @@ CREATE TABLE [DebitOrders] (
   [AmountInMibiBBDough] INT,
   [AccountId] INT,
   [DayInTheMonth] INT,
-  [EndsAt] DATETIME,
+  [EndsAt] DATETIME NULL,
+  [CancelledAt] DATETIME NULL,
   [DebitOrderRecipientId] INT
 )
 GO
@@ -68,6 +70,12 @@ CREATE TABLE [DebitOrderRecipients] (
   [ExternalAccountId] INT
 )
 GO
+
+CREATE TABLE [DebitCard] (
+  [DebitCardId] INT PRIMARY KEY IDENTITY(1, 1),
+  [CardNumber] UNIQUEIDENTIFIER DEFAULT NEWID(),
+  [AccountId] INT,
+)
 
 ALTER TABLE [Users] ADD FOREIGN KEY ([DeletedBy]) REFERENCES [Users] ([UserId])
 GO
@@ -100,6 +108,9 @@ ALTER TABLE [DebitOrders] ADD FOREIGN KEY ([DebitOrderRecipientId]) REFERENCES [
 GO
 
 ALTER TABLE [DebitOrderRecipients] ADD FOREIGN KEY ([ExternalAccountId]) REFERENCES [ExternalAccounts] ([ExternalAccountId])
+GO
+
+ALTER TABLE [DebitCard] ADD FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
 GO
 
 ALTER TABLE DebitOrders

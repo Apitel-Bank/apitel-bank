@@ -59,6 +59,7 @@ Table DebitOrders {
   // [1, 30]
   DayInTheMonth INT
   EndsAt DATETIME [NULL]
+  CancelledAt DATETIME [NULL]
 
   DebitOrderRecepientId INT [ref: > DebitOrderRecepients.DebitOrderRecepientId]
 }
@@ -66,4 +67,10 @@ Table DebitOrders {
 Table DebitOrderRecepients {
   DebitOrderRecepientId INT [PK, INCREMENT]
   ExternalAccountId INT [ref: > ExternalAccounts.ExternalAccountId]
+}
+
+Table DebitCard {
+  DebitCardId INT [PK, INCREMENT]
+  CardNumber GUID
+  AccountId INT [ref: > Accounts.AccountId]
 }
