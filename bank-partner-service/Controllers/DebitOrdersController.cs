@@ -22,8 +22,8 @@ namespace BankPartnerService.Controllers
         /// Queues the given debit order for cancellation.
         /// </summary>
         /// <response code="202">Accepted</response>
-        [HttpDelete()]
-        public IActionResult DeleteDebitOrder(QueuedRequest<DeleteDebitOrder> Request)
+        [HttpDelete("{DebitOrderId}")]
+        public IActionResult DeleteDebitOrder()
         {
             return Ok();
         }
