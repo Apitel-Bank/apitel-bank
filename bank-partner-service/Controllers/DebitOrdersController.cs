@@ -9,20 +9,18 @@ namespace BankPartnerService.Controllers
     public class DebitOrdersController : ControllerBase
     {
         /// <summary>
-        /// Queues a new debit order creation.
+        /// Creates a new debit order.
         /// </summary>
-        /// <response code="202">Accepted</response>
         [HttpPost()]
-        public IActionResult CreateDebitOrder(QueuedRequest<IEnumerable<CreateDebitOrder>> Request)
+        public ActionResult<CreateDebitOrderResponse> CreateDebitOrder(IEnumerable<CreateDebitOrderRequest> request)
         {
             return new CreatedResult();
         }
 
         /// <summary>
-        /// Queues the given debit order for cancellation.
+        /// Cancels a debit order.
         /// </summary>
-        /// <response code="202">Accepted</response>
-        [HttpDelete("{DebitOrderId}")]
+        [HttpDelete("{debitOrderId}")]
         public IActionResult DeleteDebitOrder()
         {
             return Ok();
