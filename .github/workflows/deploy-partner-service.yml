@@ -36,7 +36,7 @@ jobs:
       - name: Zip the build
         run: |
           cd build
-          zip -r ../build.zip .
+          zip -r ./build.zip .
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
@@ -47,4 +47,4 @@ jobs:
           environment_name: Apitel-partner-service-env
           version_label: "app-${{ github.sha }}"
           region: eu-west-1
-          deployment_package: ../build.zip
+          deployment_package: build.zip
