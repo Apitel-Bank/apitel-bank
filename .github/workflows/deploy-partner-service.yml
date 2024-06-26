@@ -11,10 +11,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: bank-partner-service
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,7 +32,7 @@ jobs:
       - name: Zip the build
         run: |
           cd build
-           zip -r build.zip .
+           zip -r ../build.zip .
 
       - name: List current directory
         run: ls -la
