@@ -26,10 +26,11 @@ namespace BankPartnerService.Controllers
         /// This endpoint will not accept transactions whose references is not unique.
         /// </summary>
         /// <param name="request"></param>
+        /// <response code="202">Accepted</response>
         [HttpPost("deposits")]
-        public ActionResult<MakeDepositResponse> MakeDeposit(IEnumerable<MakeDepositRequest> request)
+        public IActionResult MakeDeposit(IEnumerable<MakeDepositRequest> request)
         {
-            return Ok();
+            return Created();
         }
 
         /// <summary>
@@ -38,6 +39,17 @@ namespace BankPartnerService.Controllers
         /// <response code="200">New|Accepted|Verified|Rejected|Reversed values for status</response>
         [HttpGet("{reference}/status")]
         public ActionResult<GetTransactionStatusResponse> GetTransactionStatus()
+        {
+            return Ok();
+        }
+
+        /// <summary>
+        /// Marks the transaction as verified or reversed.
+        /// 
+        /// Other banks call this endpoint when they have successfully/unsuccessfully processed a deposit into their bank account from us.
+        /// </summary>
+        [HttpPut("{reference}/status")]
+        public ActionResult<GetTransactionStatusResponse> UpdateTransactionStatus(UpdateTransactionRequest request)
         {
             return Ok();
         }
