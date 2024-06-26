@@ -38,6 +38,9 @@ jobs:
           cd build
           zip -r ./build.zip .
 
+      - name: List current directory
+        run: ls -la
+
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
