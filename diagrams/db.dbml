@@ -68,9 +68,3 @@ Table DebitOrderRecepients {
   DebitOrderRecepientId INT [PK, INCREMENT]
   ExternalAccountId INT [ref: > ExternalAccounts.ExternalAccountId]
 }
-
-Table DebitCard {
-  DebitCardId INT [PK, INCREMENT]
-  CardNumber GUID
-  AccountId INT [ref: > Accounts.AccountId]
-}
