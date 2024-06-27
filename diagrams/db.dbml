@@ -59,6 +59,7 @@ Table DebitOrders {
   // [1, 30]
   DayInTheMonth INT
   EndsAt DATETIME [NULL]
+  CancelledAt DATETIME [NULL]
 
   DebitOrderRecepientId INT [ref: > DebitOrderRecepients.DebitOrderRecepientId]
 }
