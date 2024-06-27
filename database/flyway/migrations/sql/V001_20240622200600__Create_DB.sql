@@ -26,8 +26,8 @@ GO
 CREATE TABLE [AccountTransactions] (
   [AccountTransactionId] INT PRIMARY KEY IDENTITY(1, 1),
   [AccountId] INT NOT NULL,
-  [DebitInMibiBBDough] INT,
-  [CreditInMibiBBDough] INT,
+  [DebitInMibiBBDough] INT NOT NULL,
+  [CreditInMibiBBDough] INT NOT NULL,
   [Reference] NVARCHAR(512),
   [OtherPartyId] INT
 )
