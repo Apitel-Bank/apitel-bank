@@ -10,7 +10,7 @@ Table Users {
 Table Customers {
   CustomerId INT [PK, INCREMENT]
   UserId INT [ref: > Users.UserId]
-  BBDoughId INT
+  BBDoughId INT [UNIQUE]
   DeletedAt DATETIME [NULL]
   DeletedBy INT [ref: > Users.UserId, NULL]  
 }
