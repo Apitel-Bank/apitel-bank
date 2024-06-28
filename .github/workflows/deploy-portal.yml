@@ -1,0 +1,50 @@
+name: Deploy Portal to AWS Elastic Beanstalk Environment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "bank-manager-portal/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        working-directory: bank-manager-portal
+        run: npm ci
+
+      - name: Build the React app
+        working-directory: bank-manager-portal
+        run: npm run build
+
+      - name: Zip the build folder
+        working-directory: bank-manager-portal
+        run: zip -r build.zip build server.js package.json package-lock.json
+
+      - name: Get SHA
+        working-directory: bank-manager-portal
+        id: get_sha
+        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          application_name: apitel-portal
+          environment_name: Apitel-portal-env
+          version_label: "app-${{ steps.get_sha.outputs.sha }}"
+          region: eu-west-1
+          deployment_package: bank-manager-portal/build.zip
