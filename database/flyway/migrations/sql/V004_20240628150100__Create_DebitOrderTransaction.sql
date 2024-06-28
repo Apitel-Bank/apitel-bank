@@ -1,7 +1,7 @@
 CREATE TABLE DebitOrderTransactions (
   [DebitOrderTransactionId] INT PRIMARY KEY IDENTITY(1, 1),
-   DebitOrderId INT NOT NULL,
-   AccountTransactionId INT NOT NULL,
+  [DebitOrderId] INT NOT NULL,
+  [AccountTransactionId] INT NOT NULL,
 )
 GO
 
