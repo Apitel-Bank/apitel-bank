@@ -1,9 +1,6 @@
-﻿using Azure.Core;
-using BankPartnerService.Models;
-using Microsoft.Identity.Client;
+﻿using BankPartnerService.Models;
 using System.Data.SqlClient;
-using System.Numerics;
-using System.Transactions;
+
 
 namespace BankPartnerService.Repositories
 {

@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using BankPartnerService.Models;
+﻿using BankPartnerService.Models;
 using BankPartnerService.Services;
 using Microsoft.AspNetCore.Mvc;
 
