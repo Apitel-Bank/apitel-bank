@@ -73,3 +73,9 @@ Table Banks {
   BankId INT [PK, INCREMENT]
   BankName NVARCHAR[256]
 }
+
+Table DebitOrderTransactions {
+  DebitOrderTransactionId INT [PK, INCREMENT]
+  DebitOrderId INT [ref: > DebitOrders.DebitOrderId]
+  AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
+}
