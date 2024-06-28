@@ -11,10 +11,12 @@ builder.Services.AddSingleton<Db>();
 builder.Services.AddSingleton<CustomersRepository>();
 builder.Services.AddSingleton<AccountsRepository>();
 builder.Services.AddSingleton<BanksRepository>();
+builder.Services.AddSingleton<DebitOrdersRespository>();
 
 // Add services to the container
 builder.Services.AddSingleton<CustomersService>();
 builder.Services.AddSingleton<BanksService>();
+builder.Services.AddSingleton<DebitOrdersService>();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 // Add controllers to the container
