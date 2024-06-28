@@ -3,3 +3,6 @@ CREATE TABLE Banks (
   [BankName] NVARCHAR(256) NOT NULL
 )
 GO
+
+ALTER TABLE [ExternalAccounts] ADD FOREIGN KEY ([BankId]) REFERENCES [Banks] ([BankId])
+GO
