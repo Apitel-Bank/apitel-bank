@@ -35,7 +35,7 @@ Table AccountTransactions {
 
 Table ExternalAccounts {
   ExternalAccountId INT [PK, INCREMENT]
-  BankId INT
+  BankId INT [ref: > Banks.BankId]
   ExternalCustomerAccountId NVARCHAR[512]
 }
 
@@ -67,4 +67,9 @@ Table DebitOrders {
 Table DebitOrderRecepients {
   DebitOrderRecepientId INT [PK, INCREMENT]
   ExternalAccountId INT [ref: > ExternalAccounts.ExternalAccountId]
+}
+
+Table Banks {
+  BankId INT [PK, INCREMENT]
+  BankName NVARCHAR[256]
 }
