@@ -28,14 +28,14 @@ resource "aws_vpc" "apitel_portal_vpc" {
   }
 }
 
-resource "aws_internet_gateway" "apitel_portal_vpc" {
+resource "aws_internet_gateway" "apitel_portal_gateway" {
   vpc_id = aws_vpc.apitel_portal_vpc.id
   tags = {
     owner: "liam.talberg@bbd.co.za"
   }
 }
 
-resource "aws_subnet" "apitel_portal_vpc" {
+resource "aws_subnet" "apitel_portal_subnet_a" {
   vpc_id                  = aws_vpc.apitel_portal_vpc.id
   cidr_block              = "10.0.4.0/24"
   map_public_ip_on_launch = true
