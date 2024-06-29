@@ -105,9 +105,9 @@ data "aws_iam_role" "existing_role" {
   name = "aws-elasticbeanstalk-ec2"
 }
 
-resource "aws_iam_instance_profile" "beanstalk_ec2" {
+#As the istance profile already exists
+data "aws_iam_instance_profile" "beanstalk_ec2" {
   name = "aws-apitel-ec2-profile"
-  role = data.aws_iam_role.existing_role.arn
 }
 
 resource "aws_security_group" "apitel_portal_security_group" {
