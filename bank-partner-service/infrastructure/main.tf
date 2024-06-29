@@ -144,7 +144,7 @@ resource "aws_elastic_beanstalk_application" "PartnerService" {
 
 resource "aws_elastic_beanstalk_environment" "PartnerServiceEnv" {
   name        = "production"
-  application = aws_elastic_beanstalk_application.app.name
+  application = aws_elastic_beanstalk_application.PartnerService.name
   solution_stack_name = "64bit Amazon Linux 2023 v3.1.2 running .NET 8"
 
   setting {
