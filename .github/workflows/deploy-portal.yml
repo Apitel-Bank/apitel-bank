@@ -32,7 +32,7 @@ jobs:
       - name: Zip the build folder
         working-directory: bank-manager-portal
         run: zip -r build.zip build server.js package.json package-lock.json .ebextensions
-        
+
       - name: Get SHA
         working-directory: bank-manager-portal
         id: get_sha
@@ -43,8 +43,8 @@ jobs:
         with:
           aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
           aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          application_name: apitel-portal
-          environment_name: Apitel-portal-env
+          application_name: ApitelPortal
+          environment_name: ApitelPortalEnv
           version_label: "app-${{ steps.get_sha.outputs.sha }}"
           region: eu-west-1
           deployment_package: bank-manager-portal/build.zip
