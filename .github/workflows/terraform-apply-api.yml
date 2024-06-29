@@ -3,6 +3,11 @@ name: "Create Partner Service Elastic Beanstalk"
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
 jobs:
   createEB:
     runs-on: ubuntu-latest
