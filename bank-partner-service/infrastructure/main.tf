@@ -137,14 +137,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
   to_port           = 443
 }
 
-resource "aws_elastic_beanstalk_application" "PartnerService" {
+resource "aws_elastic_beanstalk_application" "app" {
   name        = "ApitelPartnerService"
-  description = "apitel API"
+  description = "Apitel Partner Service API"
 }
 
-resource "aws_elastic_beanstalk_environment" "Apitel-partner-service-env" {
-  name        = "Apitel-partner-service-env"
-  application = aws_elastic_beanstalk_application.PartnerService.name
+resource "aws_elastic_beanstalk_environment" "environment" {
+  name        = "ApitelPartnerServiceEnv"
+  application = aws_elastic_beanstalk_application.app.name
   solution_stack_name = "64bit Amazon Linux 2023 v3.1.2 running .NET 8"
 
   setting {
