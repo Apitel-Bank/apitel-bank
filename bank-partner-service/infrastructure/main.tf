@@ -138,12 +138,12 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
 }
 
 resource "aws_elastic_beanstalk_application" "PartnerService" {
-  name        = "apitel-api"
+  name        = "ApitelPartnerService"
   description = "apitel API"
 }
 
-resource "aws_elastic_beanstalk_environment" "PartnerServiceEnv" {
-  name        = "production"
+resource "aws_elastic_beanstalk_environment" "Apitel-partner-service-env" {
+  name        = "Apitel-partner-service-env"
   application = aws_elastic_beanstalk_application.PartnerService.name
   solution_stack_name = "64bit Amazon Linux 2023 v3.1.2 running .NET 8"
 
