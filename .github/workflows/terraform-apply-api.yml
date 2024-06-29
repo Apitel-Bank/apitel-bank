@@ -26,7 +26,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Validate Identity with AWS
-        working-directory: ./infrastructure
+        working-directory: ./bank-partner-service/infrastructure
         run: aws sts get-caller-identity
 
       - name: Setup Terraform
