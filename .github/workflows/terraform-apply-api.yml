@@ -1,4 +1,4 @@
-name: "Create Partner Service Elastic Beanstalk"
+name: "Terraform Create Partner Service on Elastic Beanstalk"
 
 on:
   workflow_dispatch:
