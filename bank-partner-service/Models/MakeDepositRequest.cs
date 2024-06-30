@@ -1,4 +1,4 @@
 ﻿namespace BankPartnerService.Models
 {
-    public record MakeDepositRequest(long ToPersonaId, long AmountInMibiBBDough, string Reference);
+    public record MakeDepositRequest(int ToPersonaId, int AmountInMibiBBDough, string Reference, string fromAccountId);
 }

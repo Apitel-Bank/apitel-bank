@@ -26,10 +26,10 @@ namespace BankPartnerService.Controllers
         /// </summary>
         /// <param name="personaId">The id of the persona to get the accounts of.</param>
         [HttpGet("{personaId}/accounts")]
-        public ActionResult<GetAcountResponse> GetAccounts(long personaId)
+        public ActionResult<IEnumerable<GetAcountResponse>> GetAccounts(int personaId)
         {
-            var response = customersService.GetAccount(personaId);
-            return response;
+            var account = customersService.GetAccount(personaId);
+            return Ok(new List<GetAcountResponse> { new(account.account.AccountId, account.account.Name, account.balance) });
         }
     }
 }

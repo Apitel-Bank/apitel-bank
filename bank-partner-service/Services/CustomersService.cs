@@ -1,4 +1,5 @@
 ﻿using BankPartnerService.Models;
+using BankPartnerService.Models;
 using BankPartnerService.Repositories;
 using System.Data.SqlClient;
 
@@ -38,9 +39,9 @@ namespace BankPartnerService.Services
             });
         }
 
-        public GetAcountResponse GetAccount(long personaId)
+        public (Account account, int balance) GetAccount(long customerIdNumber)
         {
-            return customersRepository.GetAccount(personaId);
+            return (accountsRepository.GetAccount(customerIdNumber), accountsRepository.GetBalanceOptionalTransaction(customerIdNumber, null));
         }
     }
 }
