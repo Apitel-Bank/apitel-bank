@@ -1,4 +1,5 @@
-﻿using BankPartnerService.Repositories;
+﻿using BankPartnerService.Models;
+using BankPartnerService.Repositories;
 using System.Data.SqlClient;
 
 namespace BankPartnerService.Services
@@ -20,6 +21,11 @@ namespace BankPartnerService.Services
             {
                 return customers.Select(customer => CreateCustomerWithAccount(transaction, customer.idNumber, customer.displayName));
             });
+        }
+
+        public (Account account, int balance) GetAccount(long customerIdNumber)
+        {
+            return (accountsRepository.GetAccount(customerIdNumber), accountsRepository.GetBalanceOptionalTransaction(customerIdNumber, null));
         }
     }
 }

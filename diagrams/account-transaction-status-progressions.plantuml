@@ -2,25 +2,32 @@
 ' Deposit = Another bank is sending money to us
 ' Payment = we have to send money to another bank
 @startuml
-' A transaction will be queued, once popped from the queue for processing it
-' is added to db (for auditing purposes) and is marked as new.
+' A transaction is marked as new when received.
 [*] --> New
 
-' Next step is to verify that the source and target accounts exists, if payment, and that
-' the customer has enough funds for the transaction. For Deposits we verify that the target
-' account exists.
-' In Accepted state, PAYMENT transactions count towards the user's balance (i.e reflect)
-New --> Accepted : Funds available [If payment]. Deposits automatically go to Accepted.
+' Payments are marked as accepted when the customer has funds
+' Deposits are marked as accepted just before the sending bank is notified of successful capture of the funds
+New --> Accepted : Acceptance criteria met.
+
+' Payments are visible immediately
+' Deposits are only visible if the sending bank responded with success of the receipt of the funds
+'          If the response was an error the deposit stays in accepted and will be retried at a schedule
+'          a set number of times after which the issue is escalated with bank manager.
+Accepted --> Visible : The transaction should be visible in customer account balance
 
 ' Transaction declined, a rejection reason is communicated back to initiator.
 New --> Rejected : Acceptance conditions not met
 
-' If DEPOSIT, the deposited amount will count towards user's balance.
-Accepted --> Verified : The other bank has confirmed successful capture of the transaction
+' Payments are marked as verified when the receiving bank has confirmed receipt of the funds.
+'   If the funds cannot be routed to a receiving bank. The notes are returned bank into
+'   out bank and the customer account is credited to reverse the payment.
+' After being marked as visible, deposits immediately become verified.
+Visible --> Verified : The other bank has confirmed successful capture of the payment into it
 
-' The other bank failed to verify successful capture of the transaction.
+' The other bank failed to verify successful capture of a payment into it.
 ' If PAYMENT the user's funds are reversed.
-Accepted --> Reversed : Verification failed. Reverse Payments.
+Visible --> Reversed : Verification failed. Reverse Payments.
 Reversed --> [*]
 Rejected --> [*]
+Verified --> [*]
 @enduml

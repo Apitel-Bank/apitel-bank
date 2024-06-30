@@ -4,7 +4,7 @@ name = "flyway"
 
 [flyway]
 defaultSchema = "dbo"
-locations = [ "filesystem:migrations", "filesystem:data" ]
+locations = [ "filesystem:migrations", "filesystem:data", "filesystem:programmability" ]
 validateMigrationNaming = true
 
 [flyway.plugins.clean]

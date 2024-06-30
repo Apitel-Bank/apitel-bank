@@ -37,14 +37,16 @@ namespace BankPartnerService.Repositories
 
         public T WithTransaction<T>(Func<SqlTransaction, T> executable)
         {
+            var transaction = Connection.BeginTransaction();
+
             try
             {
-                var transaction = Connection.BeginTransaction();
                 var result = executable(transaction);
                 transaction.Commit();
                 return result;
             } catch
             {
+                transaction.Rollback();   
                 throw;
             }
         }
