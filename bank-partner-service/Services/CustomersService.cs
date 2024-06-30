@@ -1,4 +1,5 @@
-﻿using BankPartnerService.Repositories;
+﻿using BankPartnerService.Models;
+using BankPartnerService.Repositories;
 using System.Data.SqlClient;
 
 namespace BankPartnerService.Services
@@ -9,6 +10,21 @@ namespace BankPartnerService.Services
 
         private (int customerId, int accountId, string accountName) CreateCustomerWithAccount(SqlTransaction transaction, long idNumber, string displayName)
         {
+            //Check if this customer has an account, if they do then do not let them make another one
+            string checkCustomerSql = @"
+            SELECT c.CustomerId, a.AccountId, a.Name 
+            FROM Customers c
+            JOIN Accounts a ON c.CustomerId = a.CustomerId
+            WHERE c.BBDoughId = @IdNumber";
+
+            using var checkCustomerCommand = new SqlCommand(checkCustomerSql, db.Connection);
+            checkCustomerCommand.Parameters.AddWithValue("@IdNumber", idNumber);
+            var reader = checkCustomerCommand.ExecuteReader();
+            if (reader.Read())
+            {
+                throw new Exception("Customer already has an account.");
+            }
+                
             int customerId = customersRepository.AddCustomer(transaction, idNumber, displayName);
             int accountId = accountsRepository.AddAccount(transaction, customerId, SAVINGS_ACCOUNT_NAME);
             return (customerId, accountId, SAVINGS_ACCOUNT_NAME);
@@ -20,6 +36,11 @@ namespace BankPartnerService.Services
             {
                 return customers.Select(customer => CreateCustomerWithAccount(transaction, customer.idNumber, customer.displayName));
             });
+        }
+
+        public GetAcountResponse GetAccount(long personaId)
+        {
+            return customersRepository.GetAccount(personaId);
         }
     }
 }

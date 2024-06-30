@@ -9,9 +9,9 @@ namespace BankPartnerService.Controllers
     [ApiController]
     public class CustomersController (CustomersService customersService) : ControllerBase
     {
+        private readonly DebitOrdersService _debitOrdersService;
         /// <summary>
-        /// Creates a new customers. The customers will also get new bank accounts. A customer can only have one bank account.
-        /// The customer's bank account will also automatically get a debit card.
+        /// Creates a new customers. The customers will also get new bank account. A customer can only have one bank account.
         /// </summary>
         /// <response code="201">All Created</response>
         [HttpPost()]
@@ -22,13 +22,14 @@ namespace BankPartnerService.Controllers
         }
 
         /// <summary>
-        /// Gets the personas' active accounts and their linked debit cards.
+        /// Gets the personas' active account and their balance.
         /// </summary>
         /// <param name="personaId">The id of the persona to get the accounts of.</param>
         [HttpGet("{personaId}/accounts")]
-        public ActionResult<IEnumerable<GetAcountResponse>> GetAccounts(long personaId)
+        public ActionResult<GetAcountResponse> GetAccounts(long personaId)
         {
-            return Ok();
+            var response = customersService.GetAccount(personaId);
+            return response;
         }
     }
 }

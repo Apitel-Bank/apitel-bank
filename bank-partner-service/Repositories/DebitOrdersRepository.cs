@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace BankPartnerService.Repositories
 {
-    public class DebitOrdersRespository(Db db)
+    public class DebitOrdersRepository(Db db)
     {
        public CreateDebitOrderResponse AddDebitOrder(CreateDebitOrderRequest request)
        { 

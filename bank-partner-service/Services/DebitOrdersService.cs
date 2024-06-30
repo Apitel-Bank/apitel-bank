@@ -1,18 +1,22 @@
 ﻿using BankPartnerService.Models;
 using BankPartnerService.Repositories;
+using System.Data.SqlClient;
 
 namespace BankPartnerService.Services
 {
-    public class DebitOrdersService(DebitOrdersRespository debitOrdersRespository)
+    public class DebitOrdersService(DebitOrdersRepository debitOrdersRepository, Db db)
     {
+ 
         public CreateDebitOrderResponse AddDebitOrder(CreateDebitOrderRequest debitOrderRequest)
         {
-            return debitOrdersRespository.AddDebitOrder(debitOrderRequest);
+           
+            return debitOrdersRepository.AddDebitOrder(debitOrderRequest);
         }
 
         public int CancelDebitOrder(int debitOrderId)
         {
-            return debitOrdersRespository.CancelDebitOrder(debitOrderId);
+            //TODO: Ensure the persona/business making the request to cancel is authorized
+            return debitOrdersRepository.CancelDebitOrder(debitOrderId);
         }
     }
 }

@@ -11,7 +11,7 @@ builder.Services.AddSingleton<Db>();
 builder.Services.AddSingleton<CustomersRepository>();
 builder.Services.AddSingleton<AccountsRepository>();
 builder.Services.AddSingleton<BanksRepository>();
-builder.Services.AddSingleton<DebitOrdersRespository>();
+builder.Services.AddSingleton<DebitOrdersRepository>();
 
 // Add services to the container
 builder.Services.AddSingleton<CustomersService>();
