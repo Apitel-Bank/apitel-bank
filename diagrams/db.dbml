@@ -42,7 +42,7 @@ Table ExternalAccounts {
 Table AccountTransactionStatusProgressions {
   AccountTransactionStatusProgressionId INT [PK, INCREMENT]
   AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
-  AccountTransactionStatusId INT
+  AccountTransactionStatusId INT [ref: > AccountTransactionStatuses.AccountTransactionStatusId]
 }
 
 Table AccountTransactionRejectionReasons {
@@ -78,4 +78,15 @@ Table DebitOrderTransactions {
   DebitOrderTransactionId INT [PK, INCREMENT]
   DebitOrderId INT [ref: > DebitOrders.DebitOrderId]
   AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
+}
+
+Table AccountTransactionStatuses {
+  AccountTransactionStatusId INT [PK, INCREMENT]
+  Description VARCHAR[32]
+}
+
+Table AllowedAccountTransactionStatusProgression {
+  AllowedAccountTransactionStatusProgressionId INT [PK, INCREMENT]
+  FromStatusId INT [NOT NULL]
+  ToStatusId INT [NOT NULL]
 }

@@ -12,11 +12,15 @@ builder.Services.AddSingleton<CustomersRepository>();
 builder.Services.AddSingleton<AccountsRepository>();
 builder.Services.AddSingleton<BanksRepository>();
 builder.Services.AddSingleton<DebitOrdersRespository>();
+builder.Services.AddSingleton<ExternalAccountsRepository>();
+builder.Services.AddSingleton<TransactionsRepository>();
+builder.Services.AddSingleton<AccountTransactionStatusesRepository>();
 
 // Add services to the container
 builder.Services.AddSingleton<CustomersService>();
 builder.Services.AddSingleton<BanksService>();
 builder.Services.AddSingleton<DebitOrdersService>();
+builder.Services.AddSingleton<TransactionsService>();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 // Add controllers to the container

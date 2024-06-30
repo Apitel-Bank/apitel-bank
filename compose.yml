@@ -19,6 +19,7 @@ services:
     volumes:
       - ./database/flyway/conf/:/flyway/conf
       - ./database/flyway/data/:/flyway/data
+      - ./database/flyway/programmability/:/flyway/programmability
       - ./database/flyway/migrations/:/flyway/migrations
     depends_on:
       - db
