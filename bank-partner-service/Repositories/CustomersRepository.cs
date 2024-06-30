@@ -1,4 +1,4 @@
-﻿using BankPartnerService.Models;
+using BankPartnerService.Models;
 using System.Data.SqlClient;
 
 namespace BankPartnerService.Repositories

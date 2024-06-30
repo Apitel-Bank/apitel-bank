@@ -39,8 +39,10 @@ namespace BankPartnerService.Repositories
                 return account;
             } else
             {
+                reader.Close();
                 throw new KeyNotFoundException("Could not find customer with the given id");
             }
+           
         }
 
         public int GetBalance(SqlTransaction transaction, long customerIdNumber)

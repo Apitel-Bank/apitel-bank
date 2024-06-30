@@ -28,6 +28,8 @@ namespace BankPartnerService.Repositories
             getExternalAccountId.Parameters.AddWithValue("@AccountId", request.Recepient.AccountId);
             var externalAccountId = getExternalAccountId.ExecuteScalar();
 
+            //TODO: Validation that the BankId matches one we have
+            //TODO: Validation that the externalAccountId exists at the external bank/our bank?
             if (externalAccountId == null)
             {
                 // If we don't have the externalAccountId then add external account

@@ -23,9 +23,11 @@ namespace BankPartnerService.Services
             var reader = checkCustomerCommand.ExecuteReader();
             if (reader.Read())
             {
+                reader.Close();
+                //TODO: Change to a real exception
                 throw new Exception("Customer already has an account.");
             }
-                
+            reader.Close();
             int customerId = customersRepository.AddCustomer(transaction, idNumber, displayName);
             int accountId = accountsRepository.AddAccount(transaction, customerId, SAVINGS_ACCOUNT_NAME);
             return (customerId, accountId, SAVINGS_ACCOUNT_NAME);
