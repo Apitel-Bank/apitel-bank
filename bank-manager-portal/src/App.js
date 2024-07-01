@@ -12,17 +12,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App flex flex-col">
         <NavBar />
-        <Routes>
-          <Route path="/accounts" element={<Accounts />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/investments" element={<Investments/>} />
-          <Route path="/payments" element={<Payments/>} />
-          <Route path="/settings" element={<Settings/>} />
-          <Route path="/statements" element={<Statements/>} />
-          <Route path="/transactions" element={<Transactions/>} />
-        </Routes>
+        <div>
+          <Routes className="flex-1 bg-green-400">
+            <Route path="/accounts" element={<Accounts />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/investments" element={<Investments />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/statements" element={<Statements />} />
+            <Route path="/transactions" element={<Transactions />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
