@@ -19,8 +19,8 @@ Accepted --> Visible : The transaction should be visible in customer account bal
 New --> Rejected : Acceptance conditions not met
 
 ' Payments are marked as verified when the receiving bank has confirmed receipt of the funds.
-'   If the funds cannot be routed to a receiving bank. The notes are returned bank into
-'   out bank and the customer account is credited to reverse the payment.
+'   If the funds cannot be routed to a receiving bank. The notes are returned back into
+'   our bank and the customer account is credited to reverse the payment.
 ' After being marked as visible, deposits immediately become verified.
 Visible --> Verified : The other bank has confirmed successful capture of the payment into it
 
