@@ -7,7 +7,9 @@ AS
   IF EXISTS (SELECT 1 FROM AllowedAccountTransactionStatusProgression WHERE FromStatusId=@CurrentStatus AND ToStatusId=@NextStatusId)
   BEGIN
     INSERT INTO AccountTransactionStatusProgressions(AccountTransactionId, AccountTransactionStatusId)
-      VALUES(@TransactionId, @NextStatusId)
+      VALUES(@TransactionId, @NextStatusId);
+
+    RETURN SCOPE_IDENTITY();
   END
   ELSE
   BEGIN;
