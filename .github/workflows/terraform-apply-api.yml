@@ -1,0 +1,48 @@
+name: "Terraform Create Partner Service on Elastic Beanstalk"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  createEB:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GITHUB_ACTION_RDS
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Validate Identity with AWS
+        working-directory: ./bank-partner-service/infrastructure
+        run: aws sts get-caller-identity
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialize Terraform
+        id: init
+        working-directory: ./bank-partner-service/infrastructure
+        run: terraform init
+
+      - name: Generate infrastructure plan
+        id: plan
+        working-directory: ./bank-partner-service/infrastructure
+        run: terraform plan -out=.tfplan
+
+      - name: Apply infrastructure plan
+        id: apply
+        working-directory: ./bank-partner-service/infrastructure
+        run: terraform apply .tfplan

@@ -1,21 +1,24 @@
 ﻿using BankPartnerService.Models;
+using BankPartnerService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankPartnerService.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class CustomersController (CustomersService customersService) : ControllerBase
     {
         /// <summary>
         /// Creates a new customers. The customers will also get new bank accounts. A customer can only have one bank account.
         /// The customer's bank account will also automatically get a debit card.
         /// </summary>
+        /// <response code="201">All Created</response>
         [HttpPost()]
-        public ActionResult<GetAcountResponse> CreateCustomers(IEnumerable<CreateCustomerRequest> request)
+        public ActionResult<IEnumerable<GetAcountResponse>> CreateCustomers(IEnumerable<CreateCustomerRequest> request)
         {
-            return new CreatedResult();
+            var accounts = customersService.BulkCreateCustomerWithAccounts(request.Select(customer => (customer.PersonaId, customer.PersonaId.ToString())));
+            return new CreatedResult("/customers", accounts.Select(account => new GetAcountResponse(account.accountId, account.accountName, 0)));
         }
 
         /// <summary>
@@ -23,9 +26,10 @@ namespace BankPartnerService.Controllers
         /// </summary>
         /// <param name="personaId">The id of the persona to get the accounts of.</param>
         [HttpGet("{personaId}/accounts")]
-        public ActionResult<IEnumerable<GetAcountResponse>> GetAccounts(long personaId)
+        public ActionResult<IEnumerable<GetAcountResponse>> GetAccounts(int personaId)
         {
-            return Ok();
+            var account = customersService.GetAccount(personaId);
+            return Ok(new List<GetAcountResponse> { new(account.account.AccountId, account.account.Name, account.balance) });
         }
     }
 }

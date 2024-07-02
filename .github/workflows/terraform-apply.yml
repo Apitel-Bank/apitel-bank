@@ -1,4 +1,4 @@
-name: "Deploy Terraform"
+name: "Terraform Create Database on AWS RDS"
 
 on:
   workflow_dispatch:

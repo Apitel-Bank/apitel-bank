@@ -17,7 +17,9 @@ import Statements from "./routes/statements/statements";
 import Transactions from "./routes/transactions/transactions";
 import {
   BrowserRouter as Router,
-  Routes, Route, Navigate,
+  Routes,
+  Route,
+  Navigate,
 } from "react-router-dom";
 import { useState } from "react";
 import userPool from "./shared/userPool";
@@ -61,34 +63,34 @@ function App() {
     return (
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-          backgroundColor: '#f0f2f5',
-          padding: '1rem', // Add padding for mobile responsiveness
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          backgroundColor: "#f0f2f5",
+          padding: "1rem", // Add padding for mobile responsiveness
         }}
       >
         <Card
           sx={{
-            width: '100%', // Make card take full width on mobile
+            width: "100%", // Make card take full width on mobile
             maxWidth: 400, // Limit max width for larger screens
-            padding: '2rem',
-            borderRadius: '1rem',
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
+            padding: "2rem",
+            borderRadius: "1rem",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.5rem",
           }}
         >
           <CardContent>
             <Typography
               variant="h4"
               sx={{
-                marginBottom: '1rem',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                color: '#3f51b5',
+                marginBottom: "1rem",
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#3f51b5",
               }}
             >
               Login
@@ -102,7 +104,7 @@ function App() {
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 fullWidth
-                sx={{ marginBottom: '1rem' }}
+                sx={{ marginBottom: "1rem" }}
               />
               <TextField
                 id="password"
@@ -112,10 +114,16 @@ function App() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 fullWidth
-                sx={{ marginBottom: '1rem' }}
+                sx={{ marginBottom: "1rem" }}
               />
               {loginError && (
-                <Typography sx={{ color: 'red', textAlign: 'center', marginTop: '0.5rem' }}>
+                <Typography
+                  sx={{
+                    color: "red",
+                    textAlign: "center",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {loginError}
                 </Typography>
               )}
@@ -124,7 +132,7 @@ function App() {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ marginTop: '1rem' }}
+                sx={{ marginTop: "1rem" }}
               >
                 Submit
               </Button>
@@ -137,17 +145,20 @@ function App() {
 
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/accounts" element={<Accounts />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/investments" element={<Investments />} />
-        <Route path="/payments" element={<Payments />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/statements" element={<Statements />} />
-        <Route path="/transactions" element={<Transactions />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+      <div className="App flex flex-col">
+        <NavBar />
+        <div>
+          <Routes className="flex-1 bg-green-400">
+            <Route path="/accounts" element={<Accounts />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/investments" element={<Investments />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/statements" element={<Statements />} />
+            <Route path="/transactions" element={<Transactions />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }

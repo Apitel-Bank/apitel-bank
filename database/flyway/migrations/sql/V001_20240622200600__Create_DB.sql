@@ -1,32 +1,33 @@
 CREATE TABLE [Users] (
   [UserId] INT PRIMARY KEY IDENTITY(1, 1),
-  [DisplayName] NVARCHAR(256),
-  [DeletedAt] DATETIME,
-  [DeletedBy] INT
+  [DisplayName] NVARCHAR(256) NOT NULL,
+  [DeletedAt] DATETIME NULL,
+  [DeletedBy] INT NULL
 )
 GO
 
+
 CREATE TABLE [Customers] (
   [CustomerId] INT PRIMARY KEY IDENTITY(1, 1),
-  [UserId] INT,
-  [BBDoughId] INT,
-  [DeletedAt] DATETIME,
-  [DeletedBy] INT
+  [UserId] INT NOT NULL,
+  [BBDoughId] INT NOT NULL,
+  [DeletedAt] DATETIME NULL,
+  [DeletedBy] INT NULL
 )
 GO
 
 CREATE TABLE [Accounts] (
   [AccountId] INT PRIMARY KEY IDENTITY(1, 1),
-  [CustomerId] INT,
+  [CustomerId] INT NOT NULL,
   [Name] NVARCHAR(256)
 )
 GO
 
 CREATE TABLE [AccountTransactions] (
   [AccountTransactionId] INT PRIMARY KEY IDENTITY(1, 1),
-  [AccountId] INT,
-  [DebitInMibiBBDough] INT,
-  [CreditInMibiBBDough] INT,
+  [AccountId] INT NOT NULL,
+  [DebitInMibiBBDough] INT NOT NULL,
+  [CreditInMibiBBDough] INT NOT NULL,
   [Reference] NVARCHAR(512),
   [OtherPartyId] INT
 )
@@ -34,14 +35,14 @@ GO
 
 CREATE TABLE [ExternalAccounts] (
   [ExternalAccountId] INT PRIMARY KEY IDENTITY(1, 1),
-  [BankId] INT,
-  [ExternalCustomerAccountId] NVARCHAR(512),
+  [BankId] INT NOT NULL,
+  [ExternalCustomerAccountId] NVARCHAR(512) NOT NULL,
 )
 GO
 
 CREATE TABLE [AccountTransactionStatusProgressions] (
   [AccountTransactionStatusProgressionId] INT PRIMARY KEY IDENTITY(1, 1),
-  [AccountTransactionId] INT,
+  [AccountTransactionId] INT NOT NULL,
   [AccountTransactionStatusId] INT
 )
 GO
@@ -55,17 +56,18 @@ GO
 
 CREATE TABLE [DebitOrders] (
   [DebitOrderId] INT PRIMARY KEY IDENTITY(1, 1),
-  [AmountInMibiBBDough] INT,
-  [AccountId] INT,
-  [DayInTheMonth] INT,
-  [EndsAt] DATETIME,
-  [DebitOrderRecipientId] INT
+  [AmountInMibiBBDough] INT NOT NULL,
+  [AccountId] INT NOT NULL,
+  [DayInTheMonth] INT NOT NULL,
+  [EndsAt] DATETIME NULL,
+  [CancelledAt] DATETIME NULL,
+  [DebitOrderRecipientId] INT NOT NULL
 )
 GO
 
 CREATE TABLE [DebitOrderRecipients] (
   [DebitOrderRecipientId] INT PRIMARY KEY IDENTITY(1, 1),
-  [ExternalAccountId] INT
+  [ExternalAccountId] INT NOT NULL
 )
 GO
 

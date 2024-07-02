@@ -10,7 +10,7 @@ Table Users {
 Table Customers {
   CustomerId INT [PK, INCREMENT]
   UserId INT [ref: > Users.UserId]
-  BBDoughId INT
+  BBDoughId INT [UNIQUE]
   DeletedAt DATETIME [NULL]
   DeletedBy INT [ref: > Users.UserId, NULL]  
 }
@@ -35,14 +35,14 @@ Table AccountTransactions {
 
 Table ExternalAccounts {
   ExternalAccountId INT [PK, INCREMENT]
-  BankId INT
+  BankId INT [ref: > Banks.BankId]
   ExternalCustomerAccountId NVARCHAR[512]
 }
 
 Table AccountTransactionStatusProgressions {
   AccountTransactionStatusProgressionId INT [PK, INCREMENT]
   AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
-  AccountTransactionStatusId INT
+  AccountTransactionStatusId INT [ref: > AccountTransactionStatuses.AccountTransactionStatusId]
 }
 
 Table AccountTransactionRejectionReasons {
@@ -59,6 +59,7 @@ Table DebitOrders {
   // [1, 30]
   DayInTheMonth INT
   EndsAt DATETIME [NULL]
+  CancelledAt DATETIME [NULL]
 
   DebitOrderRecepientId INT [ref: > DebitOrderRecepients.DebitOrderRecepientId]
 }
@@ -66,4 +67,26 @@ Table DebitOrders {
 Table DebitOrderRecepients {
   DebitOrderRecepientId INT [PK, INCREMENT]
   ExternalAccountId INT [ref: > ExternalAccounts.ExternalAccountId]
+}
+
+Table Banks {
+  BankId INT [PK, INCREMENT]
+  BankName NVARCHAR[256]
+}
+
+Table DebitOrderTransactions {
+  DebitOrderTransactionId INT [PK, INCREMENT]
+  DebitOrderId INT [ref: > DebitOrders.DebitOrderId]
+  AccountTransactionId INT [ref: > AccountTransactions.AccountTransactionId]
+}
+
+Table AccountTransactionStatuses {
+  AccountTransactionStatusId INT [PK, INCREMENT]
+  Description VARCHAR[32]
+}
+
+Table AllowedAccountTransactionStatusProgression {
+  AllowedAccountTransactionStatusProgressionId INT [PK, INCREMENT]
+  FromStatusId INT [NOT NULL]
+  ToStatusId INT [NOT NULL]
 }

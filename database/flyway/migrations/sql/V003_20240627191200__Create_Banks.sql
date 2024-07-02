@@ -1,0 +1,9 @@
+CREATE TABLE Banks (
+  [BankId] INT PRIMARY KEY IDENTITY(1000, 1),
+  [BankName] NVARCHAR(256) NOT NULL
+)
+GO
+
+ALTER TABLE [ExternalAccounts]
+ADD CONSTRAINT FK_ExternalAccounts_BankId FOREIGN KEY ([BankId]) REFERENCES [Banks] ([BankId])
+GO
