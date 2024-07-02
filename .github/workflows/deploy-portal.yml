@@ -31,7 +31,7 @@ jobs:
 
       - name: Zip the build folder
         working-directory: bank-manager-portal
-        run: zip -r build.zip build server.js package.json package-lock.json .ebextensions
+        run: zip -r build.zip build server.js package.json package-lock.json .ebextensions tailwind.config.js
 
       - name: Get SHA
         working-directory: bank-manager-portal
