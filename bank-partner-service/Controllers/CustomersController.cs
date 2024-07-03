@@ -15,9 +15,9 @@ namespace BankPartnerService.Controllers
         /// </summary>
         /// <response code="201">All Created</response>
         [HttpPost()]
-        public ActionResult<IEnumerable<GetAcountResponse>> CreateCustomers(IEnumerable<CreateCustomerRequest> request)
+        public ActionResult<IEnumerable<GetAcountResponse>> CreateCustomers(CreateCustomerRequest request)
         {
-            var accounts = customersService.BulkCreateCustomerWithAccounts(request.Select(customer => (customer.PersonaId, customer.PersonaId.ToString())));
+            var accounts = customersService.BulkCreateCustomerWithAccounts(request.PersonaIds.Select(customerIdNumber => (customerIdNumber, customerIdNumber.ToString())));
             return new CreatedResult("/customers", accounts.Select(account => new GetAcountResponse(account.accountId, account.accountName, 0)));
         }
 

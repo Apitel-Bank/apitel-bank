@@ -1,4 +1,4 @@
 ﻿namespace BankPartnerService.Models
 {
-    public record CreateCustomerRequest(long PersonaId);
+    public record CreateCustomerRequest(IEnumerable<long> PersonaIds);
 }
