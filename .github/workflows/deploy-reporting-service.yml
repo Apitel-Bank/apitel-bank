@@ -1,0 +1,41 @@
+name: Deploy Main banking Service to AWS Elastic Beanstalk Environment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reporting-service/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Install dependency
+        working-directory: main-banking-service
+        run: mvn install
+
+      - name: Package to jar file
+        working-directory: main-banking-service
+        run: mvn package -DskipTests
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          application_name: apitel
+          environment_name: apitel-environmentV3
+          version_label: "app-${{ github.sha }}"
+          region: eu-west-1
+          deployment_package: reporting-service/target/reporting-service-0.0.1-SNAPSHOT.jar
