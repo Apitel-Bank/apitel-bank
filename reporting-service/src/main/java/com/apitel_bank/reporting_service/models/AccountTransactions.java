@@ -1,5 +1,6 @@
 package com.apitel_bank.reporting_service.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,14 +16,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "AccountTransactions")
+@Table(name = "Accounttransactions")
 public class AccountTransactions {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Accounttransactionid")
     private int AccountTransactionId;
+
+    @Column(name = "Accountid")
     private int AccountId;
+
+    @Column(name = "Debitinmibibbdough")
     private int DebitInMibiBBDough;
+
+    @Column(name = "Creditinmibibbdough")
     private String CreditInMibiBBDough;
+
+    @Column(name = "Otherpartyid")
     private int OtherPartyId;
 }

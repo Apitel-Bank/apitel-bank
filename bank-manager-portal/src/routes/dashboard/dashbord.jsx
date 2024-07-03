@@ -34,6 +34,11 @@ export default function Dashboard() {
       <div className="p-8 flex flex-col items-start">
         <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
         <hr className="w-full mb-4" />
+        <div className='w-full bg-green-50 shadow-lg my-16 rounded-lg' >
+          <h2>We have handled over 1.2B transactions</h2>
+          
+
+        </div>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
@@ -50,34 +55,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  <Link to="/investments" className="text-green-800 hover:underline">
-                    Investments
-                  </Link>
-                </Typography>
-                <Typography variant="h4" component="div" className="mt-2">
-                  {data.investments}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  <Link to="/payments" className="text-green-800 hover:underline">
-                    Payments
-                  </Link>
-                </Typography>
-                <Typography variant="h4" component="div" className="mt-2">
-                  {data.payments}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+
           <Grid item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>

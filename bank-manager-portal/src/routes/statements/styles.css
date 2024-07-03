@@ -1,0 +1,4 @@
+.input {
+    @apply md:max-w-[5rem] w-full flex-grow;
+  }
+  
