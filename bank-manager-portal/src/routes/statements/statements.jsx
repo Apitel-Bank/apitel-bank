@@ -11,7 +11,7 @@ export default function Statements() {
 
   const fetchTransactions = async (accountId, dateRange) => {
     try {
-      const response = await fetch(`http://localhost:8080/accountTransactions?accountId=${accountId}&dateRange=${dateRange}`);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/accountTransactions?accountId=${accountId}&dateRange=${dateRange}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

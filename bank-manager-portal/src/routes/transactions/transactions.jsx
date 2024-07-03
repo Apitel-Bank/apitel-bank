@@ -9,7 +9,7 @@ export default function Transactions() {
     const getTransactions = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/accountTransactions"
+          `${process.env.REACT_APP_BASE_URL}/accountTransactions`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

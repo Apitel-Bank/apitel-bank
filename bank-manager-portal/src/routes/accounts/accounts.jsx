@@ -8,8 +8,9 @@ export default function Accounts() {
 
   useEffect(() => {
     const getData = async () => {
+      console.table(process.env)
       try {
-        const response = await fetch("http://localhost:8080/accounts");
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/accounts`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
