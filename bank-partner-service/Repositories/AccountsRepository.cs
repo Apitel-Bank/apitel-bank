@@ -40,14 +40,14 @@ namespace BankPartnerService.Repositories
             }
         }
 
-        public int GetBalance(SqlTransaction transaction, long customerIdNumber)
+        public long GetBalance(SqlTransaction transaction, long customerIdNumber)
         {
             return GetBalanceOptionalTransaction(customerIdNumber, transaction);
         }
 
-        public int GetBalanceOptionalTransaction(long customerIdNumber, SqlTransaction transaction = null)
+        public long GetBalanceOptionalTransaction(long customerIdNumber, SqlTransaction transaction = null)
         {
-            var sql = @"DECLARE @Balance INT;
+            var sql = @"DECLARE @Balance BIGINT;
                         EXEC @Balance = dbo.GetBalance @CustomerIdNumber;
                         SELECT @Balance;";
 
@@ -61,7 +61,7 @@ namespace BankPartnerService.Repositories
             }
             else
             {
-                return (int)balance;
+                return (long)balance;
             }
         }
     }

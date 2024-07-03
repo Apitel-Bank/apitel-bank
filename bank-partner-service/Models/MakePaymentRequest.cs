@@ -1,4 +1,4 @@
 ﻿namespace BankPartnerService.Models
 {
-    public record MakePaymentRequest(int SenderId, int AmountInMibiBBDough, PaymentRecepient Recepient, string Reference);
+    public record MakePaymentRequest(int SenderId, long AmountInMibiBBDough, PaymentRecepient Recepient, string Reference);
 }

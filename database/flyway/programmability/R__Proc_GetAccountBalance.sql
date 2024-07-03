@@ -1,7 +1,6 @@
 CREATE OR ALTER PROCEDURE GetBalance
 @CustomerIdNumber INT
 AS
-  DECLARE @Balance INT;
   WITH VisibleOrVerifiedTransactionStatusIds AS (
     SELECT AccountTransactionStatusId FROM AccountTransactionStatuses WHERE Description IN ('Visible', 'Verified')
   )

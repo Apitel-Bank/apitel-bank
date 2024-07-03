@@ -6,7 +6,7 @@ namespace BankPartnerService.Repositories
 {
     public class TransactionsRepository(Db db)
     {
-        public int AddAccountTransaction(SqlTransaction transaction, int customerIdNumber, int debit, int credit, string reference, int otherPartyId, int initialStatus)
+        public int AddAccountTransaction(SqlTransaction transaction, int customerIdNumber, long debit, long credit, string reference, int otherPartyId, int initialStatus)
         {
             var sql = @"DECLARE @TransactionId INT;
                         DECLARE @AccountId INT;
@@ -26,8 +26,8 @@ namespace BankPartnerService.Repositories
 
             using var command = new SqlCommand(sql, transaction.Connection, transaction);
             command.Parameters.Add("@CustomerIdNumber", System.Data.SqlDbType.Int).Value = customerIdNumber;
-            command.Parameters.Add("@Debit", System.Data.SqlDbType.Int).Value = debit;
-            command.Parameters.Add("@Credit", System.Data.SqlDbType.Int).Value = credit;
+            command.Parameters.Add("@Debit", System.Data.SqlDbType.BigInt).Value = debit;
+            command.Parameters.Add("@Credit", System.Data.SqlDbType.BigInt).Value = credit;
             command.Parameters.Add("@Reference", System.Data.SqlDbType.NVarChar).Value = reference;
             command.Parameters.Add("@OtherPartyId", System.Data.SqlDbType.Int).Value = otherPartyId;
             command.Parameters.Add("@InitialStatusId", System.Data.SqlDbType.Int).Value = initialStatus;

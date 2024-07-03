@@ -46,7 +46,7 @@ namespace BankPartnerService.Controllers
         {
             try
             {
-                var transactionId = transactionsService.AddDeposit(request.ToPersonaId, request.AmountInMibiBBDough, request.Reference, partnerId, request.fromAccountId);
+                var transactionId = transactionsService.AddDeposit(request.ToPersonaId, request.AmountInMibiBBDough, request.Reference, partnerId, request.FromAccountId);
                 return Accepted(string.Format("transactions/{0}", transactionId), new TransactionResponse(transactionId));
             } catch (BaseBankException ex)
             {
