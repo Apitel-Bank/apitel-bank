@@ -1,6 +1,24 @@
 import { useEffect, useState } from "react";
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Box, Typography, Grid, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import './styles.css';
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Box,
+  Typography,
+  Grid,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import "./styles.css";
 
 export default function Statements() {
   const [transactions, setTransactions] = useState([]);
@@ -10,8 +28,19 @@ export default function Statements() {
   const [dateRange, setDateRange] = useState("30");
 
   const fetchTransactions = async (accountId, dateRange) => {
+    const accessToken = sessionStorage.getItem("accessToken");
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/accountTransactions?accountId=${accountId}&dateRange=${dateRange}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/accountTransactions?accountId=${accountId}&dateRange=${dateRange}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -31,7 +60,9 @@ export default function Statements() {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" mb={2}>Statements</Typography>
+      <Typography variant="h4" mb={2}>
+        Statements
+      </Typography>
       <Grid container spacing={2} justifyContent="flex-end">
         <Grid item xs={12} md={4}>
           <FormControl fullWidth>
@@ -56,14 +87,27 @@ export default function Statements() {
           </FormControl>
         </Grid>
         <Grid item xs={12} md={2}>
-          <Button variant="contained" color="primary" fullWidth onClick={handleSearch}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleSearch}
+          >
             Search
           </Button>
         </Grid>
       </Grid>
 
-      {loading && <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>}
-      {error && <Typography color="error" mt={2}>Error: {error}</Typography>}
+      {loading && (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <CircularProgress />
+        </Box>
+      )}
+      {error && (
+        <Typography color="error" mt={2}>
+          Error: {error}
+        </Typography>
+      )}
 
       {!loading && !error && transactions.length > 0 && (
         <Box mt={4}>
@@ -102,9 +146,10 @@ export default function Statements() {
       )}
 
       {!loading && !error && transactions.length === 0 && (
-        <Typography mt={2}>No transactions found for the selected filters.</Typography>
+        <Typography mt={2}>
+          No transactions found for the selected filters.
+        </Typography>
       )}
     </Box>
   );
 }
-
