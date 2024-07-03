@@ -1,16 +1,25 @@
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-
 export default function Accounts() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const accessToken = sessionStorage.getItem("accessToken");
+
     const getData = async () => {
-      console.table(process.env)
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/accounts`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/accounts`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
