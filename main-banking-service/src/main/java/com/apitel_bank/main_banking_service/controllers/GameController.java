@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apitel_bank.main_banking_service.models.Users;
-import com.apitel_bank.main_banking_service.repositories.AccountsRespository;
-import com.apitel_bank.main_banking_service.repositories.AccountsTransactionsRepository;
-import com.apitel_bank.main_banking_service.repositories.UsersRepository;
+import com.apitel_bank.main_banking_service.services.GameResetService;
 import com.apitel_bank.main_banking_service.singletons.GameState;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +20,9 @@ public class GameController {
     @Autowired
     private GameState gameState;
 
+    @Autowired
+    private GameResetService gameResetService;
+
     @PostMapping("/control")
     public String controlGame(@RequestBody GameControlRequest request) {
         if ("start".equalsIgnoreCase(request.getAction())) {
@@ -30,7 +30,7 @@ public class GameController {
             return "Game started";
         } else if ("reset".equalsIgnoreCase(request.getAction())) {
             gameState.resetGame(Instant.parse(request.getStartTime()));
-            //TODO: Clear everything in the database
+            gameResetService.resetGame();
             return "Game reset";
         } else {
             return "Invalid action";
