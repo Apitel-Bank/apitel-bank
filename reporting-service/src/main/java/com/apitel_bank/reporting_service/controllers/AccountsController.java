@@ -14,7 +14,7 @@ import com.apitel_bank.reporting_service.models.Accounts;
 import com.apitel_bank.reporting_service.repositories.AccountsRespository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://apitel-portal.s3-website-eu-west-1.amazonaws.com/")
 @RequestMapping("/accounts")
 public class AccountsController {
 
