@@ -21,14 +21,14 @@ namespace BankPartnerService.Services
 
         readonly IEnumerable<Bank> knownBanks = banksRepository.ListAll();
 
-        public int AddPayment(int customerIdNumber, int amount, string reference, string partnerId, int recepientBankId, string recepientAccountId)
+        public int AddPayment(int customerIdNumber, long amount, string reference, string partnerId, int recepientBankId, string recepientAccountId)
         {
             if (!reference.StartsWith(partnerId))
             {
                 throw new PartnerNameMismatchException();
             } else
             {
-                (int transactionId, int balanceBeforeTransaction) = db.WithTransaction(transaction =>
+                (int transactionId, long balanceBeforeTransaction) = db.WithTransaction(transaction =>
                 {
                     var customerBalance = accountsRepository.GetBalance(transaction, customerIdNumber);
                     var externalAccountId = externalAccountsRepository.AddExternalAccountIfNotExist(transaction, recepientBankId, recepientAccountId);
@@ -58,7 +58,7 @@ namespace BankPartnerService.Services
             }
         }
 
-        public int AddDeposit(int customerIdNumber, int amount, string reference, string partnerId, string fromAccountId)
+        public int AddDeposit(int customerIdNumber, long amount, string reference, string partnerId, string fromAccountId)
         {
             if(!reference.StartsWith(partnerId))
             {

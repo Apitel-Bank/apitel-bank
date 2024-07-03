@@ -23,7 +23,7 @@ namespace BankPartnerService.Services
             });
         }
 
-        public (Account account, int balance) GetAccount(long customerIdNumber)
+        public (Account account, long balance) GetAccount(long customerIdNumber)
         {
             return (accountsRepository.GetAccount(customerIdNumber), accountsRepository.GetBalanceOptionalTransaction(customerIdNumber, null));
         }
