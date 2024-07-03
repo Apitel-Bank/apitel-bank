@@ -9,6 +9,7 @@ namespace BankPartnerService.Repositories
     {
 
         readonly int visibleAccountTransactionStatusId = accountTransactionStatusesRepository.GetStatusId("Visible");
+        readonly int verifiedAccountTransactionStatusId = accountTransactionStatusesRepository.GetStatusId("Verified");
 
         public int AddAccount(SqlTransaction transaction, int customerId, string accountName)
         {
@@ -53,12 +54,13 @@ namespace BankPartnerService.Repositories
             var sql = @"SELECT SUM(atwas.CreditInMibiBBDough) - SUM(atwas.DebitInMibiBBDough) FROM AccountTransactionWithActiveStatus atwas
                         INNER JOIN Accounts ON Accounts.AccountId = atwas.AccountId
                         INNER JOIN Customers ON Customers.CustomerId = Accounts.CustomerId
-                        WHERE atwas.AccountTransactionStatusId = @VisibleAccountTransactionStatusId
+                        WHERE atwas.AccountTransactionStatusId IN (@VisibleAccountTransactionStatusId, @VerifiedAccountTransactionStatusId)
                         AND Customers.BBDoughId = @CustomerIdNumber";
 
             using var command = transaction != null ? new SqlCommand(sql, transaction.Connection, transaction): new SqlCommand(sql, db.Connection);
             command.Parameters.Add("@CustomerIdNumber", System.Data.SqlDbType.Int).Value = customerIdNumber;
             command.Parameters.Add("@VisibleAccountTransactionStatusId", System.Data.SqlDbType.Int).Value = visibleAccountTransactionStatusId;
+            command.Parameters.Add("@VerifiedAccountTransactionStatusId", System.Data.SqlDbType.Int).Value = verifiedAccountTransactionStatusId;
             var balance = command.ExecuteScalar();
 
             if (balance is DBNull)

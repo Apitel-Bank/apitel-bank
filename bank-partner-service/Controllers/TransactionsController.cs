@@ -2,6 +2,7 @@
 using BankPartnerService.Models;
 using BankPartnerService.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
@@ -56,11 +57,12 @@ namespace BankPartnerService.Controllers
         /// <summary>
         /// Returns status of deposit/payment with given reference.
         /// </summary>
-        /// <response code="200">New|Accepted|Verified|Rejected|Reversed values for status</response>
+        /// <response code="200">New|Accepted|Verified|Visible|Rejected|Reversed values for status</response>
         [HttpGet("{reference}/status")]
-        public ActionResult<GetTransactionStatusResponse> GetTransactionStatus()
+        public ActionResult<GetTransactionStatusResponse> GetTransactionStatus(string reference)
         {
-            return Ok();
+            var status = transactionsService.GetStatus(reference);
+            return Ok(new GetTransactionStatusResponse(status));
         }
 
         /// <summary>
@@ -69,8 +71,9 @@ namespace BankPartnerService.Controllers
         /// Other banks call this endpoint when they have successfully/unsuccessfully processed a deposit into their bank account from us.
         /// </summary>
         [HttpPut("{reference}/status")]
-        public ActionResult<GetTransactionStatusResponse> UpdateTransactionStatus(UpdateTransactionRequest request)
+        public ActionResult<GetTransactionStatusResponse> UpdateTransactionStatus(UpdateTransactionRequest request, string reference)
         {
+            transactionsService.OnOtherBankResponseForTransaction(reference, request.ProcessedSuccessfully, request.RejectionCode ?? -1, request.RejectionReason);
             return Ok();
         }
     }
