@@ -34,8 +34,8 @@ jobs:
         with:
           aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
           aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          application_name: ApitelPartnerService
-          environment_name: 
+          application_name: apitel-main-banking-service
+          environment_name: apitel-main-banking-service-envir
           version_label: "app-${{ github.sha }}"
           region: eu-west-1
           deployment_package: main-banking-service/target/main-banking-service-0.0.1-SNAPSHOT.jar
