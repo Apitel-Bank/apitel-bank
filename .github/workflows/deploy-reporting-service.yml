@@ -1,4 +1,4 @@
-name: Deploy Main banking Service to AWS Elastic Beanstalk Environment
+name: Deploy Reporting Service to AWS Elastic Beanstalk Environment
 
 on:
   push:
