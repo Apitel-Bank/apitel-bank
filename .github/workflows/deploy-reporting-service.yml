@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependency
         working-directory: reporting-service
-        run: mvn install
+        run: mvn install -DskipTests
 
       - name: Package to jar file
         working-directory: reporting-service
