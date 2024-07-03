@@ -22,13 +22,13 @@ jobs:
           java-version: '21'
 
       - name: Install dependency
-        working-directory: main-banking-service
+        working-directory: reporting-service
         run: mvn install
 
       - name: Package to jar file
-        working-directory: main-banking-service
+        working-directory: reporting-service
         run: mvn package -DskipTests
-
+        
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
