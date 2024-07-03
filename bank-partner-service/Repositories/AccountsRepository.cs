@@ -7,10 +7,6 @@ namespace BankPartnerService.Repositories
 {
     public class AccountsRepository(Db db, AccountTransactionStatusesRepository accountTransactionStatusesRepository)
     {
-
-        readonly int visibleAccountTransactionStatusId = accountTransactionStatusesRepository.GetStatusId("Visible");
-        readonly int verifiedAccountTransactionStatusId = accountTransactionStatusesRepository.GetStatusId("Verified");
-
         public int AddAccount(SqlTransaction transaction, int customerId, string accountName)
         {
             var sql = @"INSERT INTO Accounts(CustomerId, Name)
@@ -51,16 +47,12 @@ namespace BankPartnerService.Repositories
 
         public int GetBalanceOptionalTransaction(long customerIdNumber, SqlTransaction transaction = null)
         {
-            var sql = @"SELECT SUM(atwas.CreditInMibiBBDough) - SUM(atwas.DebitInMibiBBDough) FROM AccountTransactionWithActiveStatus atwas
-                        INNER JOIN Accounts ON Accounts.AccountId = atwas.AccountId
-                        INNER JOIN Customers ON Customers.CustomerId = Accounts.CustomerId
-                        WHERE atwas.AccountTransactionStatusId IN (@VisibleAccountTransactionStatusId, @VerifiedAccountTransactionStatusId)
-                        AND Customers.BBDoughId = @CustomerIdNumber";
+            var sql = @"DECLARE @Balance INT;
+                        EXEC @Balance = dbo.GetBalance @CustomerIdNumber;
+                        SELECT @Balance;";
 
             using var command = transaction != null ? new SqlCommand(sql, transaction.Connection, transaction): new SqlCommand(sql, db.Connection);
             command.Parameters.Add("@CustomerIdNumber", System.Data.SqlDbType.Int).Value = customerIdNumber;
-            command.Parameters.Add("@VisibleAccountTransactionStatusId", System.Data.SqlDbType.Int).Value = visibleAccountTransactionStatusId;
-            command.Parameters.Add("@VerifiedAccountTransactionStatusId", System.Data.SqlDbType.Int).Value = verifiedAccountTransactionStatusId;
             var balance = command.ExecuteScalar();
 
             if (balance is DBNull)
