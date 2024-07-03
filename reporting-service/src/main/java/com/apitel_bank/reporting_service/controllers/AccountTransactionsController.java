@@ -30,13 +30,7 @@ public class AccountTransactionsController {
 
         List<AccountTransactions> transactions;
 
-        if (accountId != null && dateRange != null) {
-            LocalDate endDate = LocalDate.now();
-            LocalDate startDate = endDate.minusDays(dateRange);
-            transactions = transactionsRepo.findByAccountIdAndTransactionDateBetween(accountId, startDate, endDate);
-        } else {
-            transactions = transactionsRepo.findAll();
-        }
+        transactions = transactionsRepo.findAll();
 
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
