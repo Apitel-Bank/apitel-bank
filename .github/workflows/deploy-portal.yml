@@ -1,4 +1,4 @@
-name: Deploy Portal to AWS Elastic Beanstalk Environment
+name: Deploy Portal to AWS S3 
 
 on:
   push:
@@ -8,16 +8,29 @@ on:
       - "bank-manager-portal/**"
   workflow_dispatch:
 
+env:
+  CI: false
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: "eu-west-1"
+
+      - name: Install node
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
@@ -25,26 +38,17 @@ jobs:
         working-directory: bank-manager-portal
         run: npm ci
 
-      - name: Build the React app
+      - name: Create env file
+        working-directory: bank-manager-portal
+        run: |
+          echo "REACT_APP_USER_POOL_ID=${{ secrets.REACT_APP_USER_POOL_ID }}" > .env
+          echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> .env
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> .env
+
+      - name: Build static files
         working-directory: bank-manager-portal
         run: npm run build
 
-      - name: Zip the build folder
-        working-directory: bank-manager-portal
-        run: zip -r build.zip build server.js package.json package-lock.json .ebextensions tailwind.config.js
-
-      - name: Get SHA
-        working-directory: bank-manager-portal
-        id: get_sha
-        run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
-
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          aws_secret_key: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          application_name: ApitelPortal
-          environment_name: ApitelPortalEnv
-          version_label: "app-${{ steps.get_sha.outputs.sha }}"
-          region: eu-west-1
-          deployment_package: bank-manager-portal/build.zip
+      - name: Upload static files to S3
+        working-directory: bank-manager-portal/build
+        run: aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete

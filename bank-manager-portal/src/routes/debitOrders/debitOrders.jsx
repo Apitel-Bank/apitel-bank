@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-export default function Transactions() {
-  const [transactions, setTransactions] = useState([]);
+export default function DebitOrders() {
+  const [debitOrders, setDebitOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getTransactions = async () => {
+    const getDebitOrders = async () => {
       const accessToken = sessionStorage.getItem("accessToken");
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/accountTransactions`,
+          `${process.env.REACT_APP_BASE_URL}/debitOrders`,
           {
             method: "GET",
             headers: {
@@ -23,7 +23,7 @@ export default function Transactions() {
         }
         const data = await response.json();
         console.log(data);
-        setTransactions(data);
+        setDebitOrders(data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -31,54 +31,64 @@ export default function Transactions() {
       }
     };
 
-    getTransactions();
+    getDebitOrders();
   }, []);
 
   return (
     <section className="w-full h-full flex flex-col items-start p-8">
-      <h1 className="text-2xl font-bold mb-4">Transactions</h1>
+      <h1 className="text-2xl font-bold mb-4">Debit Orders</h1>
       <hr className="w-full mb-4" />
       {loading && <p className="text-blue-500">Loading...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
       {!loading && (
-        <section id="transactions" className="flex-1 w-full text-left">
+        <section id="debitOrders" className="flex-1 w-full text-left">
           <table className="min-w-full bg-white">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
-                  Transaction ID
+                  DebitOrder ID
                 </th>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
-                  Account ID
+                  AmountInMibiDDough
                 </th>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
-                  Other Party ID
+                  AccountId
                 </th>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
-                  Debit Amount
+                  DayInTheMonth
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">EndsAt</th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  CancelledAt
                 </th>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
-                  Credit Amount
+                  DebitOrderRecipientId
                 </th>
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction, index) => (
+              {debitOrders.map((debitOrder, index) => (
                 <tr key={index} className="hover:bg-gray-100">
                   <td className="py-2 px-4 border-b border-gray-300">
-                    {transaction.accountTransactionId}
+                    {debitOrder.debitOrderId}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300">
-                    {transaction.accountId}
+                    {debitOrder.amountInMibiBBDough}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300">
-                    {transaction.otherPartyId}
+                    {debitOrder.accountId}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300">
-                    {transaction.debitInMibiBBDough}
+                    {debitOrder.dayInTheMonth}
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300">
-                    {transaction.creditInMibiBBDough}
+                    {debitOrder.endsAt}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {debitOrder.CancelledAt}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {debitOrder.debitOrderRecipientId}
                   </td>
                 </tr>
               ))}
