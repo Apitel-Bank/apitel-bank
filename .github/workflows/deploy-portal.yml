@@ -8,6 +8,9 @@ on:
       - "bank-manager-portal/**"
   workflow_dispatch:
 
+env:
+  CI: false
+
 permissions:
   id-token: write
   contents: read
