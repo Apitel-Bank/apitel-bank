@@ -35,7 +35,8 @@ namespace BankPartnerService.Repositories
                 reader.Close();
                 return account;
             } else
-            {
+            { 
+                reader.Close();
                 throw new KeyNotFoundException("Could not find customer with the given id");
             }
         }
