@@ -8,11 +8,14 @@ export default function Transactions() {
   useEffect(() => {
     const getTransactions = async () => {
       try {
-        const response = await fetch("http://localhost:8080/accountTransactions");
+        const response = await fetch(
+          "http://localhost:8080/accountTransactions"
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log(data);
         setTransactions(data);
       } catch (error) {
         setError(error.message);
@@ -31,27 +34,45 @@ export default function Transactions() {
       {loading && <p className="text-blue-500">Loading...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
       {!loading && (
-        <section id="transactions" className="flex-1 w-full">
+        <section id="transactions" className="flex-1 w-full text-left">
           <table className="min-w-full bg-white">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b-2 border-gray-300">ID</th>
-                <th className="py-2 px-4 border-b-2 border-gray-300">Date</th>
-                <th className="py-2 px-4 border-b-2 border-gray-300">Amount</th>
-                <th className="py-2 px-4 border-b-2 border-gray-300">From Account</th>
-                <th className="py-2 px-4 border-b-2 border-gray-300">To Account</th>
-                <th className="py-2 px-4 border-b-2 border-gray-300">Description</th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Transaction ID
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Account ID
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Other Party ID
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Debit Amount
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Credit Amount
+                </th>
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction) => (
-                <tr key={transaction.id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.id}</td>
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.date}</td>
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.amount}</td>
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.fromAccount}</td>
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.toAccount}</td>
-                  <td className="py-2 px-4 border-b border-gray-300">{transaction.description}</td>
+              {transactions.map((transaction, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {transaction.accountTransactionId}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {transaction.accountId}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {transaction.otherPartyId}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {transaction.debitInMibiBBDough}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300">
+                    {transaction.creditInMibiBBDough}
+                  </td>
                 </tr>
               ))}
             </tbody>

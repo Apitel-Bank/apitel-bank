@@ -32,7 +32,7 @@ export default function Accounts() {
       <div className="mb-4 w-full flex space-x-4">
         <input
           type="text"
-          placeholder="Search by name"
+          placeholder="Search account id"
           className="border border-gray-300 rounded p-2 w-1/3"
         />
         <select className="border border-gray-300 rounded p-2 w-1/3">
@@ -48,7 +48,7 @@ export default function Accounts() {
       )}
       {error && <p className="text-red-500">Error: {error}</p>}
       {!loading && !error && (
-        <section id="accounts" className="flex-1 w-full">
+        <section id="accounts" className="flex-1 w-full text-left">
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -58,6 +58,9 @@ export default function Accounts() {
                 </th>
                 <th className="py-2 px-4 border-b-2 border-gray-300">
                   Customer ID
+                </th>
+                <th className="py-2 px-4 border-b-2 border-gray-300">
+                  Available balance
                 </th>
               </tr>
             </thead>
@@ -72,6 +75,9 @@ export default function Accounts() {
                   </td>
                   <td className="py-2 px-4 border-b border-gray-300">
                     {account.customerId}
+                  </td>
+                  <td className="py-2 px-4 border-b border-gray-300 text-green-700">
+                    {"$ 2000"}
                   </td>
                 </tr>
               ))}

@@ -7,23 +7,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import PaidIcon from '@mui/icons-material/Paid';
 import StatementIcon from '@mui/icons-material/Description';
-import InvestmentsIcon from '@mui/icons-material/TrendingUp';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { ListItemText, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const primaryItems = [
   { text: "Accounts", icon: <AccountBalanceIcon /> },
   { text: "Transactions", icon: <PaidIcon /> },
-  { text: "Payments", icon: <PaymentsIcon /> },
 ];
 
 const secondaryItems = [
   { text: "Statements", icon: <StatementIcon /> },
-  { text: "Investments", icon: <InvestmentsIcon /> },
-  { text: "Settings", icon: <SettingsIcon /> },
 ];
 
 export default function SideBar({ toggleDrawer, state }) {
@@ -40,8 +35,8 @@ export default function SideBar({ toggleDrawer, state }) {
       <Divider />
       <List>
         {primaryItems.map((item, index) => (
-          <ListItem  key={index} disablePadding>
-            <ListItemButton href={`/${item.text.toLowerCase()}`}>
+          <ListItem key={index} disablePadding>
+            <ListItemButton component={Link} to={`/${item.text.toLowerCase()}`}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -51,8 +46,8 @@ export default function SideBar({ toggleDrawer, state }) {
       <Divider />
       <List>
         {secondaryItems.map((item, index) => (
-          <ListItem href={`/${item.text.toLowerCase()}`} key={index} disablePadding>
-            <ListItemButton href={`/${item.text.toLowerCase()}`}>
+          <ListItem key={index} disablePadding>
+            <ListItemButton component={Link} to={`/${item.text.toLowerCase()}`}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
