@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -7,9 +6,17 @@ export default function Transactions() {
 
   useEffect(() => {
     const getTransactions = async () => {
+      const accessToken = sessionStorage.getItem("accessToken");
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/accountTransactions`
+          `${process.env.REACT_APP_BASE_URL}/accountTransactions`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
