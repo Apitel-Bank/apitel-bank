@@ -16,4 +16,9 @@ public class AppController {
     public ResponseEntity<Map<String, String>> isOnline() {
         return new ResponseEntity<>(Map.of("message", "apitel main backing service"), HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<Map<String, String>> test() {
+        return new ResponseEntity<>(Map.of("message", "Deployed"), HttpStatus.OK);
+    }
 }
