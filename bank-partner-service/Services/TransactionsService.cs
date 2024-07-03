@@ -9,7 +9,7 @@ using System.Transactions;
 namespace BankPartnerService.Services
 {
     public class TransactionsService(Db db, AccountsRepository accountsRepository, TransactionsRepository transactionsRepository,
-        ExternalAccountsRepository externalAccountsRepository, AccountTransactionStatusesRepository accountTransactionStatusesRepository, BanksRepository banksRepository)
+        ExternalAccountsRepository externalAccountsRepository, AccountTransactionStatusesRepository accountTransactionStatusesRepository, BanksRepository banksRepository, SqsService sqsService)
 
     {
         readonly int newTransactionStatus = accountTransactionStatusesRepository.GetStatusId("New");
@@ -52,6 +52,7 @@ namespace BankPartnerService.Services
                     {
                         transactionsRepository.ProgressTransactionStatus(transaction, transactionId, acceptedTransactionStatus);
                         transactionsRepository.ProgressTransactionStatus(transaction, transactionId, visibleTransactionStatus);
+                        sqsService.AddOutgoingPayment(reference, amount, recepientBankId, recepientAccountId, customerIdNumber);
                         return transactionId;
                     });
                 }
