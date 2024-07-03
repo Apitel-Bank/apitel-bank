@@ -4,3 +4,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_h5mbEd4cG
+  jpa:
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

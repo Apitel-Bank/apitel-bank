@@ -36,7 +36,7 @@ export default function Login() {
         console.log("OnSuccess: ", data);
         const accessToken = data.getAccessToken().getJwtToken();
         sessionStorage.setItem("accessToken", accessToken);
-        navigate("/home");
+        navigate("/dashboard");
       },
       onFailure: (err) => {
         console.log("OnFailure: ", err);

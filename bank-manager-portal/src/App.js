@@ -6,6 +6,7 @@ import Statements from "./routes/statements/statements";
 import Transactions from "./routes/transactions/transactions";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./routes/login/login";
+import DebitOrders from "./routes/debitOrders/debitOrders";
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
           <Routes className="flex-1 bg-green-400">
             <Route path="/" element={<Login />} />
             <Route path="/accounts" element={<Accounts />} />
-            <Route path="/home" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/statements" element={<Statements />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/debitorders" element={<DebitOrders />} />
           </Routes>
         </div>
       </div>

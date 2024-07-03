@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.apitel_bank.reporting_service.models.Accounts;
 
-public interface AccountsRespository extends JpaRepository<Accounts, Integer>{
-    
+public interface AccountsRespository extends JpaRepository<Accounts, Integer> {
+
 }
