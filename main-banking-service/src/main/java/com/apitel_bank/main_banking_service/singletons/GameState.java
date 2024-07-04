@@ -30,7 +30,8 @@ public class GameState {
         if (running.get()) {
             long elapsedMillis = Duration.between(startTime, Instant.now()).toMillis();
             long gameDaysElapsed = elapsedMillis / (REAL_WORLD_MINUTES_PER_GAME_DAY * MILLIS_PER_MINUTE);
-            return ZonedDateTime.ofInstant(startTime, ZoneId.systemDefault()).plusDays(gameDaysElapsed);
+            long gameMonthsElapsed = gameDaysElapsed / 30;
+            return ZonedDateTime.ofInstant(startTime, ZoneId.systemDefault()).plusDays(gameMonthsElapsed * 30);
         } else {
             return ZonedDateTime.ofInstant(currentTime, ZoneId.systemDefault());
         }
