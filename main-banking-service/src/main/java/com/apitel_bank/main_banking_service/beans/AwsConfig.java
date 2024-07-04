@@ -15,7 +15,7 @@ public class AwsConfig {
     @Value( "${camel.component.aws2-sqs.region}" )
     private String sqsRegion;
 
-    @Value( "${apitel.localstack-url}" )
+    @Value( "${apitel.localstack-url:null}" )
     private String localStackUrl;
 
     @Value( "${camel.component.aws2-sqs.access-key}" )
@@ -26,13 +26,16 @@ public class AwsConfig {
 
     @Bean
     public SqsClient amazonSQSClient() {
-        if(localStackUrl == null) {
-            return SqsClient.builder()
-                    .region(Region.of(sqsRegion))
-                    .build();
-        } else {
+        try {
             return SqsClient.builder()
                     .endpointOverride(URI.create(localStackUrl))
+                    .credentialsProvider(StaticCredentialsProvider.create(
+                            AwsBasicCredentials.create(sqsAccessKey, sqsSecretKey)
+                    ))
+                    .region(Region.of(sqsRegion))
+                    .build();
+        } catch(Exception e) {
+            return SqsClient.builder()
                     .credentialsProvider(StaticCredentialsProvider.create(
                             AwsBasicCredentials.create(sqsAccessKey, sqsSecretKey)
                     ))
