@@ -43,5 +43,11 @@ namespace BankPartnerService.Services
 
             return sqsClient.SendMessageAsync(outgoingPaymentsQueueUrl, JsonSerializer.Serialize(bodyDictionary));
         }
+
+        public Task AddDepositCaptured(string reference)
+        {
+            return sqsClient.SendMessageAsync(depositsPendingVerificationQueueUrl, reference);
+
+        }
     }
 }
