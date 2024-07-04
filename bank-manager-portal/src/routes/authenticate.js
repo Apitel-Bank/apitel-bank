@@ -12,7 +12,6 @@ export const isAuthenticated = async () => {
     );
     return response.status === 200;
   } else {
-    console.log("failed");
     return false;
   }
 };

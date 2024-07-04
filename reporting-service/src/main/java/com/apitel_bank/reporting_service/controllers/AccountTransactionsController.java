@@ -1,9 +1,9 @@
 package com.apitel_bank.reporting_service.controllers;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,22 +16,35 @@ import com.apitel_bank.reporting_service.models.AccountTransactions;
 import com.apitel_bank.reporting_service.repositories.AccountsTransactionsRepository;
 
 @RestController
-@CrossOrigin(origins = "http://apitel-portal.s3-website-eu-west-1.amazonaws.com/")
 @RequestMapping("/accountTransactions")
 public class AccountTransactionsController {
 
     @Autowired
     private AccountsTransactionsRepository transactionsRepo;
 
+    // Endpoint to fetch filtered transactions with pagination
     @GetMapping
-    public ResponseEntity<List<AccountTransactions>> getFilteredTransactions(
-            @RequestParam(required = false) String accountId,
-            @RequestParam(required = false) Integer dateRange) {
+    public ResponseEntity<Page<AccountTransactions>> getFilteredTransactions(
+            @RequestParam(required = false) Integer accountId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
 
-        List<AccountTransactions> transactions;
+        Pageable pageable = PageRequest.of(page, size);
 
-        transactions = transactionsRepo.findAll();
+        Page<AccountTransactions> accountTransactions;
+        if (accountId != null) {
+            accountTransactions = transactionsRepo.findByAccountId(accountId, pageable);
+        } else {
+            accountTransactions = transactionsRepo.findAll(pageable);
+        }
 
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+        return new ResponseEntity<>(accountTransactions, HttpStatus.OK);
+    }
+
+    // Endpoint to get count of all account transactions
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCountOfAllAccountTransactions() {
+        long count = transactionsRepo.count();
+        return ResponseEntity.ok(count);
     }
 }

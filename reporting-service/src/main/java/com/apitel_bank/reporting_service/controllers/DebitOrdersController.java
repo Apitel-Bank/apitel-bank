@@ -14,7 +14,6 @@ import com.apitel_bank.reporting_service.models.DebitOrders;
 import com.apitel_bank.reporting_service.repositories.DebitOrdersRepository;
 
 @RestController
-@CrossOrigin(origins = "http://apitel-portal.s3-website-eu-west-1.amazonaws.com/")
 @RequestMapping("/debitOrders")
 public class DebitOrdersController {
 

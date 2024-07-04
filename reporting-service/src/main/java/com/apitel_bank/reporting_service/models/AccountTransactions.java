@@ -16,23 +16,26 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Accounttransactions")
+@Table(name = "Accounttransactions") // Ensure this matches your actual database table name
 public class AccountTransactions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Accounttransactionid")
-    private int AccountTransactionId;
+    @Column(name = "Accounttransactionid") // Column name in the database
+    private int accountTransactionId; // Java naming convention for camelCase
 
     @Column(name = "Accountid")
-    private int AccountId;
+    private int accountId;
 
     @Column(name = "Debitinmibibbdough")
-    private int DebitInMibiBBDough;
+    private int debitInMibiBBDough;
 
     @Column(name = "Creditinmibibbdough")
-    private String CreditInMibiBBDough;
+    private String creditInMibiBBDough;
+
+    @Column(name = "Reference")
+    private String reference;
 
     @Column(name = "Otherpartyid")
-    private int OtherPartyId;
+    private int otherPartyId;
 }

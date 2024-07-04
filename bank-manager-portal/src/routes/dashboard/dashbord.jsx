@@ -29,8 +29,8 @@ export default function Dashboard() {
 
     const getData = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/accounts`,
+        const response = await fetch( 
+          `${process.env.REACT_APP_BASE_URL}/accounts/count`,
           {
             method: "GET",
             headers: {
@@ -42,13 +42,13 @@ export default function Dashboard() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const results = await response.json();
-        setNumAccounts(results.length);
+        const results = await response.text();
+        setNumAccounts(results);
       } catch (error) {}
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/accountTransactions`,
+          `${process.env.REACT_APP_BASE_URL}/accountTransactions/count`,
           {
             method: "GET",
             headers: {
@@ -60,9 +60,9 @@ export default function Dashboard() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const data = await response.json();
+        const data = await response.text();
 
-        setNumTransactions(data.length);
+        setNumTransactions(data);
       } catch (error) {}
 
       try {
@@ -116,7 +116,7 @@ export default function Dashboard() {
               <CardContent>
                 <Typography variant="h6" component="div">
                   <Link
-                    to="/statements"
+                    to="/debitorders"
                     className="text-green-800 hover:underline"
                   >
                     DebitOrders
