@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -40,28 +41,37 @@ public class DebitOrderPaymentQueueingRouter extends RouteBuilder {
     public void configure() throws Exception {
         from("timer://cronDebitOrders?period=120000")
                 .process(exchange -> {
-                    int currentDay = gameState.getCurrentGameTime().getDayOfMonth();
+                    int currentDay = -1;
 
-                    final List<ApitelPaymentRequest> requests = debitOrdersRepository.findAll()
-                            .stream().filter(debitOrder -> debitOrder.getDayInTheMonth() == currentDay)
+                    try {
+                        currentDay = gameState.getCurrentGameTime().getDayOfMonth();
+                    } catch(Exception e) {
+                        exchange.getIn().setBody(new ArrayList<ApitelPaymentRequest>());
+                    }
 
-                            .map(dueDebitOrder -> {
-                                ExternalAccounts recipient = getDebitOrderRecipient(dueDebitOrder.getDebitOrderRecipientId());
+                    final int finalCurrentDay = currentDay;
+                    if(currentDay > 0) {
+                        final List<ApitelPaymentRequest> requests = debitOrdersRepository.findAll()
+                                .stream().filter(debitOrder -> debitOrder.getDayInTheMonth() == finalCurrentDay)
 
-                                int customerIdNumber = getCustomerIdNumberByAccountId(dueDebitOrder.getAccountId());
-                                return new ApitelPaymentRequest(
-                                    customerIdNumber,
-                                    dueDebitOrder.getAmountInMibiBBDough(),
-                                    String.format("retail-bank-do-%d-%d", customerIdNumber, dueDebitOrder.getDebitOrderId()),
-                                    new ApitelPaymentRequest.Recipient(
-                                        recipient.getBankId(),
-                                        recipient.getExternalCustomerAccountId()
-                                    )
-                                );
-                            }).toList();
+                                .map(dueDebitOrder -> {
+                                    ExternalAccounts recipient = getDebitOrderRecipient(dueDebitOrder.getDebitOrderRecipientId());
 
-                    System.out.println(requests);
-                    exchange.getIn().setBody(requests);
+                                    int customerIdNumber = getCustomerIdNumberByAccountId(dueDebitOrder.getAccountId());
+                                    return new ApitelPaymentRequest(
+                                            customerIdNumber,
+                                            dueDebitOrder.getAmountInMibiBBDough(),
+                                            String.format("retail-bank-do-%d-%d", customerIdNumber, dueDebitOrder.getDebitOrderId()),
+                                            new ApitelPaymentRequest.Recipient(
+                                                    recipient.getBankId(),
+                                                    recipient.getExternalCustomerAccountId()
+                                            )
+                                    );
+                                }).toList();
+
+                        System.out.println(requests);
+                        exchange.getIn().setBody(requests);
+                    }
                 })
                 .split(body())
                 .marshal().json(JsonLibrary.Gson)

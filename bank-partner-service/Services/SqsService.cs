@@ -22,9 +22,16 @@ namespace BankPartnerService.Services
 
             var credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-            sqsClient =  new AmazonSQSClient(credentials, new AmazonSQSConfig{
-                ServiceURL = serviceUrl,
-            });
+            if(serviceUrl == null)
+            {
+                sqsClient = new AmazonSQSClient(credentials);
+            } else
+            {
+                sqsClient = new AmazonSQSClient(credentials, new AmazonSQSConfig
+                {
+                    ServiceURL = serviceUrl,
+                });
+            }
 
             outgoingPaymentsQueueUrl = Environment.GetEnvironmentVariable("SQS_OUTGOING_PAYMENTS")!;
             depositsPendingVerificationQueueUrl = Environment.GetEnvironmentVariable("SQS_DEPOSITS_PENDING_VERIFICATION")!;
