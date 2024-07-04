@@ -17,6 +17,7 @@ builder.Services.AddSingleton<TransactionsRepository>();
 builder.Services.AddSingleton<AccountTransactionStatusesRepository>();
 
 // Add services to the container
+builder.Services.AddSingleton<SqsService>();
 builder.Services.AddSingleton<CustomersService>();
 builder.Services.AddSingleton<BanksService>();
 builder.Services.AddSingleton<DebitOrdersService>();
