@@ -33,17 +33,15 @@ export default function Login() {
 
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
-        console.log("OnSuccess: ", data);
         const accessToken = data.getAccessToken().getJwtToken();
         sessionStorage.setItem("accessToken", accessToken);
         navigate("/dashboard");
       },
       onFailure: (err) => {
-        console.log("OnFailure: ", err);
         setLoginError("Login failed. Please check your username and password.");
       },
       newPasswordRequired: (data) => {
-        console.log("NewPasswordRequired: ", data);
+
       },
     });
   }

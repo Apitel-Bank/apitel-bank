@@ -20,7 +20,7 @@ const primaryItems = [
 
 const secondaryItems = [
   { text: "DebitOrders", icon: <StatementIcon /> },
-  { text: "Statements", icon: <StatementIcon /> },
+  // { text: "Statements", icon: <StatementIcon /> },
 ];
 
 export default function SideBar({ toggleDrawer, state }) {

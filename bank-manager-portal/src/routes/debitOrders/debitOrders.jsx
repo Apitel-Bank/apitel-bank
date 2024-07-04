@@ -22,7 +22,6 @@ export default function DebitOrders() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
         setDebitOrders(data);
       } catch (error) {
         setError(error.message);

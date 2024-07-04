@@ -14,7 +14,6 @@ import com.apitel_bank.reporting_service.models.DebitOrders;
 import com.apitel_bank.reporting_service.repositories.DebitOrdersRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/debitOrders")
 public class DebitOrdersController {
 

@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,15 @@ public class Accounts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Accountid")
-    private Integer AccountId;
+    @Column(name = "AccountId")
+    private Integer accountId;
 
-    @Column(name = "Customerid")
-    private Integer CustomerId;
+    @Column(name = "CustomerId")
+    private Integer customerId;
 
     @Column(name = "Name")
-    private String Name;
+    private String name;
+
+    @Transient
+    private Integer balance;
 }
