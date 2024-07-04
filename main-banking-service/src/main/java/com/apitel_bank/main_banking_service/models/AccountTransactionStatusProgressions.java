@@ -1,10 +1,6 @@
 package com.apitel_bank.main_banking_service.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +16,12 @@ public class AccountTransactionStatusProgressions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Accounttransactionstatusprogressionid")
     private int AccountTransactionStatusProgressionId;
+
+    @Column(name = "Accounttransactionid")
     private int AccountTransactionId;
+
+    @Column(name = "Accounttransactionstatusid")
     private int AccountTransactionStatusId;
 }
