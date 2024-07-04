@@ -78,6 +78,8 @@ namespace BankPartnerService.Services
                         var transactionId = transactionsRepository.AddAccountTransaction(transaction, customerIdNumber, 0, amount, reference, externalAccountId, newTransactionStatus);
 
                         transactionsRepository.ProgressTransactionStatus(transaction, transactionId, acceptedTransactionStatus);
+                        transactionsRepository.ProgressTransactionStatus(transaction, transactionId, visibleTransactionStatus);
+                        sqsService.AddDepositCaptured(reference);
                         return transactionId;
                     });
                 }
