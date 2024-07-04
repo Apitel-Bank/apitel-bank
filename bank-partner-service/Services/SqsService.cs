@@ -24,7 +24,8 @@ namespace BankPartnerService.Services
 
             if(serviceUrl == null)
             {
-                sqsClient = new AmazonSQSClient(credentials);
+                var region = RegionEndpoint.EUWest1;
+                sqsClient = new AmazonSQSClient(credentials, region);
             } else
             {
                 sqsClient = new AmazonSQSClient(credentials, new AmazonSQSConfig
