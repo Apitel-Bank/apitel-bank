@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "AccountTransactionRejectionReasons")
+@Table(name = "Accounttransactionrejectionreasons")
 public class AccountTransactionRejectionReasons {
     
     @Id

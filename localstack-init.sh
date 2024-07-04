@@ -6,3 +6,4 @@ aws configure set output json && \
 
 aws --endpoint-url=http://localstack-main:4566 sqs create-queue --queue-name sqs-outgoing-payments
 aws --endpoint-url=http://localstack-main:4566 sqs create-queue --queue-name sqs-deposits-pending-verification
+aws --endpoint-url=http://localstack-main:4566 sqs create-queue --queue-name sqs-payment-requests

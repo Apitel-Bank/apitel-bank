@@ -29,4 +29,16 @@ public class Accounts {
 
     @Column(name = "Name")
     private String Name;
+
+    public Integer getAccountId() {
+        return AccountId;
+    }
+
+    public Integer getCustomerId() {
+        return CustomerId;
+    }
+
+    public String getName() {
+        return Name;
+    }
 }
