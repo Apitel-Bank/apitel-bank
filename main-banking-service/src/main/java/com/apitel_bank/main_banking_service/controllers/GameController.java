@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.apitel_bank.main_banking_service.services.BusinessRegisterService;
 import com.apitel_bank.main_banking_service.services.GameResetService;
 import com.apitel_bank.main_banking_service.singletons.GameState;
 
@@ -23,10 +24,14 @@ public class GameController {
     @Autowired
     private GameResetService gameResetService;
 
+    @Autowired
+    private BusinessRegisterService businessRegisterService;
+
     @PostMapping("/control")
     public String controlGame(@RequestBody GameControlRequest request) {
         if ("start".equalsIgnoreCase(request.getAction())) {
             gameState.startGame(Instant.parse(request.getStartTime()));
+            businessRegisterService.registerWithSARS();
             return "Game started";
         } else if ("reset".equalsIgnoreCase(request.getAction())) {
             gameState.resetGame(Instant.parse(request.getStartTime()));

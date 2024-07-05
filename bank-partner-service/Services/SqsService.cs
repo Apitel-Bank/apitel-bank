@@ -22,9 +22,17 @@ namespace BankPartnerService.Services
 
             var credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-            sqsClient =  new AmazonSQSClient(credentials, new AmazonSQSConfig{
-                ServiceURL = serviceUrl,
-            });
+            if(serviceUrl == null)
+            {
+                var region = RegionEndpoint.EUWest1;
+                sqsClient = new AmazonSQSClient(credentials, region);
+            } else
+            {
+                sqsClient = new AmazonSQSClient(credentials, new AmazonSQSConfig
+                {
+                    ServiceURL = serviceUrl,
+                });
+            }
 
             outgoingPaymentsQueueUrl = Environment.GetEnvironmentVariable("SQS_OUTGOING_PAYMENTS")!;
             depositsPendingVerificationQueueUrl = Environment.GetEnvironmentVariable("SQS_DEPOSITS_PENDING_VERIFICATION")!;
@@ -42,6 +50,12 @@ namespace BankPartnerService.Services
             };
 
             return sqsClient.SendMessageAsync(outgoingPaymentsQueueUrl, JsonSerializer.Serialize(bodyDictionary));
+        }
+
+        public Task AddDepositCaptured(string reference)
+        {
+            return sqsClient.SendMessageAsync(depositsPendingVerificationQueueUrl, reference);
+
         }
     }
 }

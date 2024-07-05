@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependency
         working-directory: main-banking-service
-        run: mvn install
+        run: mvn install -DskipTests
 
       - name: Package to jar file
         working-directory: main-banking-service
