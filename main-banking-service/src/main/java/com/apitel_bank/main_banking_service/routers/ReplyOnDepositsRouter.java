@@ -25,6 +25,9 @@ public class ReplyOnDepositsRouter extends RouteBuilder {
                 .setHeader("X-Origin", constant("retail_bank"))
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                .to(commercialBankDepositsReplyUrl);
+                .to(commercialBankDepositsReplyUrl)
+                .onException(Exception.class)
+                .handled(true)
+                .log(body().toString());
     }
 }

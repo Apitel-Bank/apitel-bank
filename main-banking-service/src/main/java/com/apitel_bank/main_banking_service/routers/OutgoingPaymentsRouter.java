@@ -44,6 +44,9 @@ public class OutgoingPaymentsRouter extends RouteBuilder {
                 .setHeader("X-Origin", constant("retail_bank"))
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                .to(commercialBankDepositsUrl);
+                .to(commercialBankDepositsUrl)
+                .onException(Exception.class)
+                .handled(true)
+                .log(body().toString());
     }
 }
