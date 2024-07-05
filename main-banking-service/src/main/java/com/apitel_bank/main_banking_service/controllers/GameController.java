@@ -5,14 +5,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.apitel_bank.main_banking_service.services.BusinessRegisterService;
 import com.apitel_bank.main_banking_service.services.GameResetService;
 import com.apitel_bank.main_banking_service.singletons.GameState;
-
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @RestController
@@ -29,12 +25,13 @@ public class GameController {
 
     @PostMapping("/control")
     public String controlGame(@RequestBody GameControlRequest request) {
+        ZonedDateTime gameStartDate = ZonedDateTime.parse(request.getStartTime());
         if ("start".equalsIgnoreCase(request.getAction())) {
-            gameState.startGame(Instant.parse(request.getStartTime()));
+            gameState.startGame(gameStartDate);
             businessRegisterService.registerWithSARS();
             return "Game started";
         } else if ("reset".equalsIgnoreCase(request.getAction())) {
-            gameState.resetGame(Instant.parse(request.getStartTime()));
+            gameState.resetGame(gameStartDate);
             gameResetService.resetGame();
             return "Game reset";
         } else {
