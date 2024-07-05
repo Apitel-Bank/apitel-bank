@@ -81,7 +81,10 @@ public class DebitOrderPaymentQueueingRouter extends RouteBuilder {
                 .setHeader("X-PartnerId", constant("retail-bank"))
                 .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                .to(apitelMakePaymentUrl);
+                .to(apitelMakePaymentUrl)
+                .onException(Exception.class)
+                .handled(true)
+                .log(body().toString());
     }
 
     private ExternalAccounts getDebitOrderRecipient(int debitOrderRecipientId) {
